@@ -204,7 +204,7 @@ export default function Home() {
             />
           </div>
           <div>Bio: {details.data.user.bio.text}</div>
-          <Link href="/" className="py-2 px-5 bg-white w-max hover:scale-110 transition">Know more</Link>
+          <Link href={`/${searchedUser}`} className="py-2 px-5 bg-white w-max hover:scale-110 transition">Know more</Link>
         </div>
       ) : searchedUser ? (
         <h1>No user with that name</h1>
