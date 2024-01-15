@@ -113,6 +113,7 @@ export default function Home() {
           body: JSON.stringify({ query, variables: vars }),
         });
         const data = await response.json();
+        console.log(data);
         setDetails(data);
         if (!recentSearches.includes(searchedUser)) {
           setRecentSearches((prevSearches) => [...prevSearches, searchedUser]);
@@ -155,19 +156,41 @@ export default function Home() {
       </div>
       {/* Options between users */}
       <p>OR Select a hashnode user from below</p>
-      <div className="space-x-3">
-        <button
-          className="hover:underline"
-          onClick={() => setSearchedUser("gmahima")}
-        >
-          gmahima
-        </button>
-        <button
-          className="hover:underline"
-          onClick={() => setSearchedUser("codewithbhargav")}
-        >
-          codewithbhargav
-        </button>
+      <div className="flex space-x-2">
+        <Link href="/abc">
+          <div className="border border-black w-max rounded-md p-2">
+            gmahima
+            <p>Username: gmahima</p>
+            <p>Name: G H Mahimaanvita</p>
+            <div className="flex items-center gap-2">
+              <p>Profile pic:</p>
+              <Image
+                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1688790415793/0QWxsRM_k.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
+                alt="profile pic"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
+            </div>
+          </div>
+        </Link>
+        <Link href="/abc2">
+          <div className="border border-black w-max rounded-md p-2">
+            codewithbhargav
+            <p>Username: codewithbhargav</p>
+            <p>Name: Bhargav Ponnapalli</p>
+            <div className="flex items-center gap-2">
+              <p>Profile pic:</p>
+              <Image
+                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1647778136262/PTwDclbQa.png?w=240&h=240&fit=crop&crop=faces&auto=compress,format&format=webp"
+                alt="profile pic"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
+            </div>
+          </div>
+        </Link>
       </div>
 
       {/* Recent searches */}
@@ -204,7 +227,12 @@ export default function Home() {
             />
           </div>
           <div>Bio: {details.data.user.bio.text}</div>
-          <Link href={`/${searchedUser}`} className="py-2 px-5 bg-white w-max hover:scale-110 transition">Know more</Link>
+          <Link
+            href={`/${searchedUser}`}
+            className="py-2 px-5 bg-white w-max hover:scale-110 transition"
+          >
+            Know more
+          </Link>
         </div>
       ) : searchedUser ? (
         <h1>No user with that name</h1>
