@@ -1,129 +1,15 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useContext, useState } from "react";
+import { detailsContext } from "./context/DetailsContext";
 
-// graphql query
-const query = `
-  query User($username: String!, $pageSize: Int!) {
-  user(username: $username) {
-    id
-    username
-    name
-    bio {
-      markdown
-      html
-      text
-    }
-    profilePicture
-    socialMediaLinks {
-      website
-      github
-      twitter
-      instagram
-      facebook
-      stackoverflow
-      linkedin
-      youtube
-    }
-    badges {
-      id
-      name
-      description
-      image
-      dateAssigned
-      infoURL
-      suppressed
-    }
-    followersCount
-    followingsCount
-    tagline
-    dateJoined
-    location
-    availableFor
-    tagsFollowing {
-      id
-      name
-      slug
-      logo
-      tagline
-      followersCount
-      postsCount
-    }
-    publications(first: $pageSize) {
-      totalDocuments
-      edges {
-        node {
-          title
-          posts(first: $pageSize) {
-            edges {
-              node {
-                title
-              }
-            }
-          }
-        }
-      }
-    }
-    deactivated
-    following
-    followsBack
-    isPro
-  }
-}
-`;
-
-interface UserDetails {
-  data: {
-    user: {
-      id: string;
-      username: string;
-      name: string;
-      bio: {
-        markdown: string;
-        html: string;
-        text: string;
-      };
-      profilePicture: string;
-      // ... other fields
-    };
-  };
-}
 
 export default function Home() {
-  const [details, setDetails] = useState<UserDetails | null>(null);
   const [searchingUser, setSearchingUser] = useState<string>("");
+  const {details,searchedUser, setSearchedUser} = useContext(detailsContext);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [searchedUser, setSearchedUser] = useState<string>("");
-
-  useEffect(() => {
-    const fetchDetails = async () => {
-      const vars = {
-        username: searchedUser,
-        pageSize: 12,
-      };
-
-      try {
-        // fetched data is not in json format by default
-        const response = await fetch("https://gql.hashnode.com/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ query, variables: vars }),
-        });
-        const data = await response.json();
-        console.log(data);
-        setDetails(data);
-        if (!recentSearches.includes(searchedUser)) {
-          setRecentSearches((prevSearches) => [...prevSearches, searchedUser]);
-        }
-      } catch (e) {
-        console.log("Error:", e);
-      }
-    };
-    fetchDetails();
-  }, [searchedUser]); // Depend on username state
+  console.log(details)
 
   if (!details) {
     return <div>Loading...</div>;
@@ -149,6 +35,7 @@ export default function Home() {
           onClick={(e) => {
             e.preventDefault();
             setSearchedUser(searchingUser);
+            setRecentSearches((prevSearchedUser) => [searchingUser,...prevSearchedUser])
           }}
         >
           Search
@@ -157,7 +44,7 @@ export default function Home() {
       {/* Options between users */}
       <p>OR Select a hashnode user from below</p>
       <div className="flex space-x-2">
-        <Link href="/abc">
+        <Link href="/gmahima">
           <div className="border border-black w-max rounded-md p-2">
             gmahima
             <p>Username: gmahima</p>
@@ -174,7 +61,7 @@ export default function Home() {
             </div>
           </div>
         </Link>
-        <Link href="/abc2">
+        <Link href="/codewithbhargav">
           <div className="border border-black w-max rounded-md p-2">
             codewithbhargav
             <p>Username: codewithbhargav</p>
