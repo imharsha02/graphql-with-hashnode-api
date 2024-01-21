@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { createContext, useState, useEffect } from "react";
 
 interface UserDetails {
@@ -13,15 +13,49 @@ interface UserDetails {
         text: string;
       };
       profilePicture: string;
+      socialMediaLinks: {
+        website: string;
+        github: string;
+        twitter: string;
+        instagram: string;
+        facebook: string;
+        stackoverflow: string;
+        linkedin: string;
+        youtube: string;
+      };
+      badges: {
+        id: string;
+        name: string;
+        description: string;
+        image: string;
+        dateAssigned: string;
+        infoURL: string;
+        suppressed: string;
+      };
+      followersCount: number;
+      followingsCount: number;
+      tagline: string;
+      dateJoined: string;
+      location: string;
+      availableFor: string;
+      tagsFollowing:{
+        id:string
+      name:string
+      slug:string
+      logo:string
+      tagline:string
+      followersCount:number
+      postsCount:number
+      }
       // ... other fields
     };
   };
 }
-export const detailsContext =createContext<{
-  details:UserDetails|null,
-  setSearchedUser: (user: string) => void,
-  searchedUser:string
-}>({ details: null, setSearchedUser: () => {}, searchedUser:'' });
+export const detailsContext = createContext<{
+  details: UserDetails | null;
+  setSearchedUser: (user: string) => void;
+  searchedUser: string;
+}>({ details: null, setSearchedUser: () => {}, searchedUser: "" });
 
 const query = `
   query User($username: String!, $pageSize: Int!) {
@@ -98,7 +132,7 @@ const DetailsProvider = ({
   children: React.ReactNode;
   searchedUser: string;
 }) => {
-  const [searchedUser,setSearchedUser] = useState<string>("")
+  const [searchedUser, setSearchedUser] = useState<string>("");
   const [details, setDetails] = useState<UserDetails | null>(null);
   useEffect(() => {
     const fetchDetails = async () => {
@@ -106,25 +140,26 @@ const DetailsProvider = ({
         username: searchedUser,
         pageSize: 12,
       };
-      try{
-        const response = await fetch("https://gql.hashnode.com/",{
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json"
+      try {
+        const response = await fetch("https://gql.hashnode.com/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-          body:JSON.stringify({query,variables:vars})
-        })
+          body: JSON.stringify({ query, variables: vars }),
+        });
         const data = await response.json();
         console.log(data);
         setDetails(data);
-      }catch(error){
-        console.log("Error: ", error)
+      } catch (error) {
+        console.log("Error: ", error);
       }
     };
-      fetchDetails();
-  },[searchedUser])
+    fetchDetails();
+  }, [searchedUser]);
+  console.log("Details from the database are:", details);
   return (
-    <detailsContext.Provider value={{details,setSearchedUser, searchedUser}}>
+    <detailsContext.Provider value={{ details, setSearchedUser, searchedUser }}>
       {children}
     </detailsContext.Provider>
   );
