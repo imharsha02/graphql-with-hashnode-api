@@ -16,7 +16,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-24 space-y-2">
+    <main className="min-h-screen space-y-2">
       <h1 className="font-semibold text-3xl mb-2">Hashnode users</h1>
 
       {/* Search bar */}
