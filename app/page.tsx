@@ -4,13 +4,12 @@ import Link from "next/link";
 import { useContext, useState } from "react";
 import { detailsContext } from "./context/DetailsContext";
 
-
 export default function Home() {
   const [searchingUser, setSearchingUser] = useState<string>("");
 
-  const {details,searchedUser, setSearchedUser} = useContext(detailsContext);
+  const { details, searchedUser, setSearchedUser } = useContext(detailsContext);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  console.log(details)
+  console.log(details);
 
   if (!details) {
     return <div>Loading...</div>;
@@ -35,10 +34,13 @@ export default function Home() {
           className="px-5 py-2 bg-white rounded-xl"
           onClick={(e) => {
             e.preventDefault();
-          
+
             setSearchedUser(searchingUser);
-       
-            setRecentSearches((prevSearchedUser) => [searchingUser,...prevSearchedUser])
+
+            setRecentSearches((prevSearchedUser) => [
+              searchingUser,
+              ...prevSearchedUser,
+            ]);
           }}
         >
           Search
@@ -47,15 +49,15 @@ export default function Home() {
       {/* Options between users */}
       <p>OR Select a hashnode user from below</p>
       <div className="flex space-x-2">
-        <Link href="/gmahima">
+        <Link href="/victoria">
           <div className="border border-black w-max rounded-md p-2">
-            gmahima
-            <p>Username: gmahima</p>
-            <p>Name: G H Mahimaanvita</p>
+            victoria
+            <p>Username: victoria</p>
+            <p>Name: Victoria Lo</p>
             <div className="flex items-center gap-2">
               <p>Profile pic:</p>
               <Image
-                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1688790415793/0QWxsRM_k.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
+                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1672984921463/25B4G5fCJ.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
                 alt="profile pic"
                 width={32}
                 height={32}
