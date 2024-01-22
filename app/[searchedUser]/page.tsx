@@ -26,6 +26,8 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   return (
     <div className="h-full">
       <div className="grid grid-cols-2">
+
+        {/* IMAGE, USERNAME AND TAG */}
         <div className="text-center flex flex-col justify-evenly">
           <Image
             src={details.data.user.profilePicture}
@@ -37,16 +39,23 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           <h2 className="text-2xl font-bold">{details.data.user.username}</h2>
           <p className=" text-base font-semibold">{details.data.user.tagline}</p>
         </div>
+
+        {/* DETAILS */}
         <div className="flex flex-col justify-between">
+
+          {/* NAME */}
           <div className="flex items-center gap-1">
             <span className="font-semibold text-xl">Name:</span>
             <p className="text-lg">{details.data.user.name}</p>
           </div>
+
+          {/* BIO */}
           <div className="flex gap-1">
             <span className="font-semibold text-xl">Bio:</span>
             <p className="text-lg">{details.data.user.bio.text}</p>
           </div>
 
+          {/* BADGES */}
           <div className="flex flex-col justify-center gap-1">
             <span className="font-semibold text-xl">Badges:</span>{" "}
             {details.data.user.badges.map((badge) => (
@@ -55,6 +64,8 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
               </p>
             ))}
           </div>
+
+          {/* FOLLOWERS */}
           <div className="flex items-center gap-1">
             <span className="font-semibold text-xl">Followed by:</span>
             <p className="text-lg">
@@ -62,6 +73,8 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
               {details.data.user.followersCount === 1 ? "person" : "people"}
             </p>
           </div>
+          
+          {/* FOLLOWING */}
           <div className="flex items-center gap-1">
             <span className="font-semibold text-xl">Following:</span>
             <p className="text-lg">
@@ -69,6 +82,8 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
               {details.data.user.followingsCount === 1 ? "person" : "people"}
             </p>
           </div>
+          
+          {/* SOCIAL MEDIA LINKS */}
           <div className="flex items-center gap-1">
             <span className="font-semibold text-xl">Connect: </span>
             {details.data.user.socialMediaLinks.twitter ? (
@@ -106,6 +121,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
       </div>
       {/* INTERESTED TOPICS AND POSTS CONTAINER */}
       <div className="grid grid-cols-2 mt-5">
+        
         {/* INTERESTED TOPICS */}
         <div>
           <span className="font-semibold text-2xl">Interested topics</span>
