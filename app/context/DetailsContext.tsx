@@ -23,15 +23,11 @@ interface UserDetails {
         linkedin: string;
         youtube: string;
       };
-      badges: {
-        id: string;
-        name: string;
-        description: string;
-        image: string;
-        dateAssigned: string;
-        infoURL: string;
-        suppressed: string;
-      };
+      badges:{
+        id:string,
+        name:string,
+        description:string
+      }[];
       followersCount: number;
       followingsCount: number;
       tagline: string;

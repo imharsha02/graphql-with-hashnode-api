@@ -24,7 +24,7 @@ export default function Home() {
         <input
           type="text"
           placeholder="Enter a username..."
-          className="p-2 rounded-lg w-72 mr-3"
+          className="p-2 rounded-lg w-72 mr-3 focus:outline-none"
           value={searchingUser}
           onChange={(e) => {
             setSearchingUser(e.target.value);

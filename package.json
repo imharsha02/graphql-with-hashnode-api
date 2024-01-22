@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
+    "@nivo/bar": "^0.84.0",
+    "@nivo/core": "^0.84.0",
+    "@nivo/pie": "^0.84.0",
     "graphql": "^16.8.1",
     "next": "14.0.4",
     "react": "^18",
