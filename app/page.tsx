@@ -7,6 +7,7 @@ import { detailsContext } from "./context/DetailsContext";
 
 export default function Home() {
   const [searchingUser, setSearchingUser] = useState<string>("");
+
   const {details,searchedUser, setSearchedUser} = useContext(detailsContext);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   console.log(details)
@@ -34,7 +35,9 @@ export default function Home() {
           className="px-5 py-2 bg-white rounded-xl"
           onClick={(e) => {
             e.preventDefault();
+          
             setSearchedUser(searchingUser);
+       
             setRecentSearches((prevSearchedUser) => [searchingUser,...prevSearchedUser])
           }}
         >

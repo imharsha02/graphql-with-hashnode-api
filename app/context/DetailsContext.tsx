@@ -23,10 +23,10 @@ interface UserDetails {
         linkedin: string;
         youtube: string;
       };
-      badges:{
-        id:string,
-        name:string,
-        description:string
+      badges: {
+        id: string;
+        name: string;
+        description: string;
       }[];
       followersCount: number;
       followingsCount: number;
@@ -34,16 +34,34 @@ interface UserDetails {
       dateJoined: string;
       location: string;
       availableFor: string;
-      tagsFollowing:{
-        id:string
-      name:string
-      slug:string
-      logo:string
-      tagline:string
-      followersCount:number
-      postsCount:number
-      }
-      // ... other fields
+      tagsFollowing: {
+        id: string;
+        name: string;
+        slug: string;
+        logo: string;
+        tagline: string;
+        followersCount: number;
+        postsCount: number;
+      }[];
+      publications: {
+        totalDocuments: number;
+        edges: {
+          node: {
+            title: string;
+            posts: {
+              edges: {
+                node: {
+                  title: string;
+                };
+              }[];
+            };
+          };
+        }[];
+      };
+      deactivated: boolean;
+      following: boolean;
+      followsBack: boolean;
+      isPro: boolean;
     };
   };
 }

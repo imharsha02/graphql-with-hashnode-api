@@ -2,7 +2,7 @@
 import { detailsContext } from "../context/DetailsContext";
 import { useContext, useEffect } from "react";
 import { FaTwitter } from "react-icons/fa6";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Link from "next/link";
 
 import Image from "next/image";
@@ -17,40 +17,106 @@ const GmahimaPage = () => {
 
   return (
     <div className="h-full">
-      <div className="max-w-full space-y-1 mb-1 text-center flex flex-col">
-        <Image
-          src={details.data.user.profilePicture}
-          alt={details.data.user.name}
-          width={58}
-          height={58}
-          className="rounded-lg mx-auto"
-        />
-        <h2 className="text-2xl font-bold">{details.data.user.username}</h2>
-        <p className=" text-lg font-semibold mt-2">
-          {details.data.user.tagline}
-        </p>
-      </div>
-      <div>
-        <p>Name: {details.data.user.name}</p>
-        <p>Bio: {details.data.user.bio.text}</p>
-    
-        <div className="flex items-center gap-1">
-          <span>Badges:</span>{" "}
-          {details.data.user.badges.map((badge) => (
-            <p key={badge.id}>{badge.name}</p>
-          ))}
+      <div className="grid grid-cols-2 content-center">
+        <div className="text-center flex flex-col justify-evenly">
+          <Image
+            src={details.data.user.profilePicture}
+            alt={details.data.user.name}
+            width={256}
+            height={256}
+            className="rounded-lg mx-auto"
+          />
+          <h2 className="text-2xl font-bold">{details.data.user.username}</h2>
+          <p className=" text-lg font-semibold">{details.data.user.tagline}</p>
         </div>
-        <p>Followed by: {details.data.user.followersCount} people</p>
+
+        <div className="flex flex-col justify-evenly">
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-xl">Name:</span>
+            <p className="text-lg">{details.data.user.name}</p>
+          </div>
+          <div className="flex gap-1">
+            <span className="font-semibold text-xl">Bio:</span>
+            <p className="max-w-2xl text-lg">{details.data.user.bio.text}</p>
+          </div>
+
+          <div className="flex flex-col justify-center gap-1">
+            <span className="font-semibold text-xl">Badges:</span>{" "}
+            {details.data.user.badges.map((badge) => (
+              <p key={badge.id} className="text-lg pl-10">
+                {badge.name}
+              </p>
+            ))}
+          </div>
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-xl">Followed by:</span>
+            <p className="text-lg">{details.data.user.followersCount}</p>
+          </div>
+          <div>
+            <div className="flex items-center gap-1">
+              <span className="font-semibold text-xl">Connect: </span>
+              {details.data.user.socialMediaLinks.twitter ? (
+                <Link
+                  target="_blank"
+                  href={details.data.user.socialMediaLinks.twitter}
+                >
+                  <FaTwitter className="bg-blue-500 text-white p-[2px] w-4 h-4" />
+                </Link>
+              ) : (
+                ""
+              )}
+              {details.data.user.socialMediaLinks.github ? (
+                <Link
+                  target="_blank"
+                  href={details.data.user.socialMediaLinks.github}
+                >
+                  <FaGithub className="w-4 h-4" />
+                </Link>
+              ) : (
+                ""
+              )}
+              {details.data.user.socialMediaLinks.linkedin ? (
+                <Link
+                  target="_blank"
+                  href={details.data.user.socialMediaLinks.linkedin}
+                >
+                  <FaLinkedin className="w-4 h-4 bg-white text-blue-500" />
+                </Link>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* INTEREST AND POSTS CONTAINER */}
+      <div className="grid grid-cols-2 mt-5">
+
+        {/* INTERESTS */}
         <div>
-          <p className="flex items-center gap-1">
-            <span>Connect:{" "}</span>
-            <Link target="_blank" href={details.data.user.socialMediaLinks.twitter}>
-              <FaTwitter className="bg-blue-500 text-white p-[2px] w-4 h-4" />
-            </Link>
-            <Link target="_blank" href={details.data.user.socialMediaLinks.github}>
-              <FaGithub className="w-4 h-4" />
-            </Link>
-          </p>
+          <span className="font-semibold text-2xl">Interested topics</span>
+          <ul className="pl-10">
+            {details.data.user.tagsFollowing.map((tag) => (
+              <li key={tag.id} className="text-lg list-disc">
+                {tag.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* POSTS */}
+        <div>
+          <span className="font-semibold text-2xl">Posts</span>
+          {details.data.user.publications.edges.map((edge) =>
+            edge.node.posts.edges.map((post) => (
+              <ul key={post.node.title}>
+                <li className="text-xl">
+                  {"->"} {post.node.title}
+                </li>
+              </ul>
+            ))
+          )}
         </div>
       </div>
     </div>
