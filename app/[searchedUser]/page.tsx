@@ -1,6 +1,8 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { detailsContext } from "../context/DetailsContext";
+import { FaHashnode } from "react-icons/fa6";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
@@ -161,7 +163,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
               target="_blank"
               href={`https://hashnode.com/@${params.searchedUser}`}
             >
-              Go to hashnode profile
+              <span className="mr-2 text-lg">Go to hashnode profile</span> <FaHashnode className="bg-blue-500 rounded-full text-white w-5 h-5" />
             </Link>
           </Button>
         </div>
