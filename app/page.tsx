@@ -1,6 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Skeleton from "react-loading-skeleton";
 import useLocalStorage from "use-local-storage";
 import {
   Merriweather_Sans,
@@ -23,15 +24,24 @@ const roboto = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 export default function Home() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchingUser, setSearchingUser] = useState<string>("");
 
   const { details, searchedUser, setSearchedUser } = useDetailsContext();
-  const [recentSearches, setRecentSearches] = useLocalStorage<string[]>("recentSearches", []);
-  const MAX_RECENT_SEARCHES = 10; // Maximum number of recent searches to store
-  // fetch bhargav , victoria
+  const [recentSearches, setRecentSearches] = useLocalStorage<string[]>(
+    "recentSearches",
+    []
+  );
+  const MAX_RECENT_SEARCHES = 10;
+
+  const removeRecentSearch = (searchToRemove: string) => {
+    setRecentSearches(
+      recentSearches.filter((search) => search !== searchToRemove)
+    );
+  };
 
   return (
-    <main className="min-h-screen space-y-2">
+    <main className="space-y-2">
       <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
         HashProfiles
       </h1>
@@ -53,13 +63,18 @@ export default function Home() {
 
             setSearchedUser(searchingUser);
 
-            setRecentSearches(prevSearchedUser => {
+            setRecentSearches((prevSearchedUser) => {
               // If prevSearchedUser is undefined, default to an empty array
               const safePrevSearchedUser = prevSearchedUser || [];
-        
+
               // Create a new list with the new search at the top, avoiding duplicates
-              const updatedSearches = [searchingUser, ...safePrevSearchedUser.filter(user => user !== searchingUser)];
-              
+              const updatedSearches = [
+                searchingUser,
+                ...safePrevSearchedUser.filter(
+                  (user) => user !== searchingUser
+                ),
+              ];
+
               // Limit the number of searches to store
               return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
             });
@@ -117,7 +132,7 @@ export default function Home() {
         </Link>
 
         {/* USER 2 */}
-        <Link href={`/codewithbhargav`}>
+        <Link href={`/iamshadmirza`}>
           <Card>
             <CardContent className="pt-6 space-y-5">
               <div className="flex items-center gap-2">
@@ -127,7 +142,7 @@ export default function Home() {
                   Username:
                 </span>{" "}
                 <p className={`tracking-wide ${open_sans.className} text-lg`}>
-                  codewithbhargav
+                  iamshadmirza
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -137,7 +152,7 @@ export default function Home() {
                   Name:
                 </span>{" "}
                 <p className={`tracking-wide text-lg ${open_sans.className}`}>
-                  Bhargav Ponnapalli
+                  Shad Mirza
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -147,7 +162,7 @@ export default function Home() {
                   Profile pic:
                 </span>
                 <Image
-                  src="https://cdn.hashnode.com/res/hashnode/image/upload/v1647778136262/PTwDclbQa.png?w=240&h=240&fit=crop&crop=faces&auto=compress,format&format=webp"
+                  src="https://cdn.hashnode.com/res/hashnode/image/upload/v1663070035311/JaSbIMfve.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
                   alt="profile pic"
                   width={45}
                   height={45}
@@ -164,12 +179,21 @@ export default function Home() {
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Recent Searches
         </h2>
-        <div className="flex space-x-2  ">
-        {recentSearches.map((recentSearch, index) => (
-          <Link key={index} href={`/${recentSearch}`} className="leading-7 rounded-full bg-black text-white py-1 px-2 ">
-            {recentSearch}
-          </Link>
-        ))}
+        <div className="flex space-x-2">
+          {recentSearches.map((recentSearch, index) => (
+            <div
+              key={index}
+              className="leading-7 rounded-full bg-black text-white p-1 px-2"
+            >
+              <Link href={`/${recentSearch}`}>{recentSearch}</Link>
+              <Button
+                onClick={() => removeRecentSearch(recentSearch)}
+                className="text-white bg-black"
+              >
+                X
+              </Button>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -257,7 +281,6 @@ export default function Home() {
           </CardHeader>
 
           <CardContent className="space-y-5">
-            {/* USERNAME */}
             <div className="flex gap-1">
               <span
                 className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
