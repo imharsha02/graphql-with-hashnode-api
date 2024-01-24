@@ -58,26 +58,28 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
         name: pub.node.title,
         // color: "hsl(234, 70%, 50%)",
         children: pub.node.posts.edges.map(post => ({
+          url: post.node.url,
           name: post.node.title,
           color: "hsl(229, 70%, 50%)",
           loc: post.node.tags ? post.node.tags.length : 1, // Number of tags in this post, or 1 if no tags
-          children: post.node.tags?.map(tag => ({
-            name: tag.name,
-            // color: "hsl(250, 70%, 50%)",
-            //loc: 1 // Each tag counts as 1
-          }))
+          // children: post.node.tags?.map(tag => ({
+          //   name: tag.name,
+          //   // color: "hsl(250, 70%, 50%)",
+          //   //loc: 1 // Each tag counts as 1
+          // }))
         }))
       };
     })
   };
   
   // Adjust the root 'loc' to be the sum of the 'loc' values of its children
-  data.loc = data.children.reduce((sum, child) => sum + child.loc, 0);
+  data.loc = data.children.reduce((sum, child: any) => sum + child.loc, 0);
   
   
   console.log("data", data)
   return (
     <div className="h-full">
+      <h2 className="text-center text-6xl font-bold p-4">User Profile</h2>
       <div className="grid grid-cols-2">
 
         {/* IMAGE, USERNAME AND TAG */}
@@ -203,8 +205,20 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
       </div>
 
       {/* POSTS STATS */}
+      <h2 className="text-center text-6xl font-bold p-4">User Post Statistics</h2>
+      <div className="bg-teal-200 rounded-lg p-4 text-center max-w-72 m-auto">Visualize user publications and their posts in the chart below</div>
       <div className="h-[500px]">
       <ResponsiveSunburst
+      isInteractive
+      onClick={
+        (d: any) => {
+          console.log(d)
+          if(d.data.url) {
+            window.open(d.data.url, '_blank');
+          }
+
+        }
+      }
       borderWidth={8}
         data={data}
         cornerRadius={5}

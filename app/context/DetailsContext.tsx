@@ -55,6 +55,7 @@ interface UserDetails {
                     {name: string}
                   ];
                   title: string;
+                  url: string;
                 };
               }[];
             };
@@ -129,6 +130,7 @@ const query = `
             edges {
               node {
                 title
+                url
                 tags {
                   name
                   
