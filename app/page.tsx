@@ -1,4 +1,15 @@
 "use client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -19,18 +30,17 @@ export default function Home() {
       <h1 className="font-bold text-3xl mb-2">HashProfiles</h1>
 
       {/* Search bar */}
-      <div>
-        <input
+      <div className="flex items-center gap-2">
+        <Input
           type="text"
           placeholder="Enter a username..."
-          className="p-2 rounded-lg w-72 mr-3 focus:outline-none"
+          className="w-max"
           value={searchingUser}
           onChange={(e) => {
             setSearchingUser(e.target.value);
           }}
         />
-        <button
-          className="px-5 py-2 bg-white rounded-xl"
+        <Button
           onClick={(e) => {
             e.preventDefault();
 
@@ -43,30 +53,43 @@ export default function Home() {
           }}
         >
           Search
-        </button>
+        </Button>
       </div>
       {/* Options between users */}
       <p>OR Select a hashnode user from below</p>
+
       <div className="flex space-x-2">
+        {/* USER 1 */}
         <Link href="/victoria">
-          <div className="border border-black w-max rounded-md p-2">
-            victoria
-            <p>Username: victoria</p>
-            <p>Name: Victoria Lo</p>
-            <div className="flex items-center gap-2">
-              <p>Profile pic:</p>
-              <Image
-                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1672984921463/25B4G5fCJ.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
-                alt="profile pic"
-                width={32}
-                height={32}
-                className="rounded-lg"
-              />
-            </div>
-          </div>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>victoria</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-2">
+                <span>Username:</span> <p>victoria</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>Name:</span> <p>Victoria Lo</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>Profile pic:</span>
+                <Image
+                  src="https://cdn.hashnode.com/res/hashnode/image/upload/v1672984921463/25B4G5fCJ.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
+                  alt="profile pic"
+                  width={32}
+                  height={32}
+                  className="rounded-lg"
+                />
+              </div>
+            </CardContent>
+          </Card>
         </Link>
+
+        {/* USER 2 */}
         <Link href="/codewithbhargav">
-          <div className="border border-black w-max rounded-md p-2">
+          {/* <div className="border border-black w-max rounded-md p-2">
             codewithbhargav
             <p>Username: codewithbhargav</p>
             <p>Name: Bhargav Ponnapalli</p>
@@ -80,7 +103,30 @@ export default function Home() {
                 className="rounded-lg"
               />
             </div>
-          </div>
+          </div> */}
+          <Card>
+            <CardHeader>
+              <CardTitle>codewithbhargav</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center gap-2">
+                <span>Username:</span> <p>codewithbhargav</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>Name:</span> <p>Bhargav Ponnapalli</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span>Profile pic:</span>
+                <Image
+                  src="https://cdn.hashnode.com/res/hashnode/image/upload/v1647778136262/PTwDclbQa.png?w=240&h=240&fit=crop&crop=faces&auto=compress,format&format=webp"
+                  alt="profile pic"
+                  width={32}
+                  height={32}
+                  className="rounded-lg"
+                />
+              </div>
+            </CardContent>
+          </Card>
         </Link>
       </div>
 
