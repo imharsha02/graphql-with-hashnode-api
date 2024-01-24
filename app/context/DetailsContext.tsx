@@ -129,6 +129,10 @@ const query = `
             edges {
               node {
                 title
+                tags {
+                  name
+                  
+                }
               }
             }
           }

@@ -27,6 +27,7 @@ export default function Home() {
   const { details, searchedUser, setSearchedUser } = useDetailsContext();
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   console.log(details);
+  // fetch bhargav , victoria 
 
   if (!details) {
     return <div>Loading...</div>;
@@ -34,7 +35,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen space-y-2">
-      <h1 className={` mb-2 ${merriweather_sans.className} text-3xl`}>
+      <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
         HashProfiles
       </h1>
 
@@ -65,11 +66,11 @@ export default function Home() {
         </Button>
       </div>
       {/* Options between users */}
-      <p className="pt-5 ${open_sans.className}">
+      <p className="leading-7 [&:not(:first-child)]:mt-6">
         OR Select a hashnode user from below
       </p>
 
-      <div className="flex space-x-2 pt-5">
+      <div className="flex space-x-2">
         {/* USER 1 */}
         <Link href="/victoria">
           <Card>
@@ -113,7 +114,7 @@ export default function Home() {
         </Link>
 
         {/* USER 2 */}
-        <Link href="/codewithbhargav">
+        <Link href={`/codewithbhargav`}>
           <Card>
             <CardContent className="pt-6 space-y-5">
               <div className="flex items-center gap-2">
@@ -157,11 +158,11 @@ export default function Home() {
 
       {/* Recent searches */}
       <div className="mt-2">
-        <h2 className={`pt-5 text-2xl tracking-wider ${roboto.className}`}>
+        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Recent Searches
         </h2>
         {recentSearches.map((recentSearch, index) => (
-          <p key={index} className="flex space-y-3 text-lg pt-2">
+          <p key={index} className="leading-7 [&:not(:first-child)]:mt-6">
             {recentSearch}
           </p>
         ))}

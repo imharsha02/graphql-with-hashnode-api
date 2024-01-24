@@ -23,28 +23,58 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   console.log(details.data.user.publications.edges)
 
   // DATA TO USE IN GRAPH
+  // const data = {
+  //   name: "publications",
+  //   color: "hsl(297, 70%, 50%)",
+  //   loc: 1,
+  //   children: 
+  //     details.data.user.publications.edges.map(pub => ({
+  //       name: pub.node.title,
+  //       loc: pub.node.posts.edges.length/details.data.user.publications.totalDocuments,
+  //       color: "hsl(234, 70%, 50%)",
+  //       children: pub.node.posts.edges.map(post => ({
+  //         name: post.node.title,
+  //         color: "hsl(229, 70%, 50%)",
+  //         loc: post.node.tags ? post.node.tags.length/pub.node.posts.edges.length : 1/pub.node.posts.edges.length,
+  //         children: post.node.tags?.map((tag) => ({
+  //           name: tag.name,
+  //           color: "hsl(250, 70%, 50%)",
+  //           loc: 1
+  //         }))
+  //       }))
+  //     }))
+    
+  // }
   const data = {
     name: "publications",
-    color: "hsl(297, 70%, 50%)",
-    loc: details.data.user.publications.totalDocuments,
-    children: 
-      details.data.user.publications.edges.map(pub => ({
+    // color: "hsl(297, 70%, 50%)",
+    loc: 1,  // Root level
+    children: details.data.user.publications.edges.map(pub => {
+      const baseValue = 1; // Base value for each publication's existence
+      const postCount = pub.node.posts.edges.length;
+      const totalValueForPublication = baseValue + postCount;
+  
+      return {
         name: pub.node.title,
-        loc: pub.node.posts.edges.length,
-        color: "hsl(234, 70%, 50%)",
+        // color: "hsl(234, 70%, 50%)",
         children: pub.node.posts.edges.map(post => ({
           name: post.node.title,
           color: "hsl(229, 70%, 50%)",
-          loc: post.node.tags ? post.node.tags.length : 1,
-          children: post.node.tags?.map((tag) => ({
+          loc: post.node.tags ? post.node.tags.length : 1, // Number of tags in this post, or 1 if no tags
+          children: post.node.tags?.map(tag => ({
             name: tag.name,
-            color: "hsl(250, 70%, 50%)",
-            loc: 1
+            // color: "hsl(250, 70%, 50%)",
+            //loc: 1 // Each tag counts as 1
           }))
         }))
-      }))
-    
-  }
+      };
+    })
+  };
+  
+  // Adjust the root 'loc' to be the sum of the 'loc' values of its children
+  data.loc = data.children.reduce((sum, child) => sum + child.loc, 0);
+  
+  
   console.log("data", data)
   return (
     <div className="h-full">
@@ -173,14 +203,14 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
       </div>
 
       {/* POSTS STATS */}
-      <div className="h-96">
+      <div className="h-[500px]">
       <ResponsiveSunburst
+      borderWidth={8}
         data={data}
-        
+        cornerRadius={5}
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
         id="name"
         value="loc"
-        cornerRadius={2}
         borderColor={{ theme: 'background' }}
         colors={{ scheme: 'nivo' }}
         childColor={{
@@ -188,18 +218,38 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             modifiers: [
                 [
                     'brighter',
-                    0.1
+                    0.4
                 ]
             ]
         }}
+        colorBy="id"
+      
         enableArcLabels={true}
-        arcLabelsSkipAngle={10}
+        // arcLabel={}
+        tooltip={(d) => {
+          console.log("d", d)
+          if(d.depth === 1) {
+            return (
+              <span className="bg-black text-white p-2 rounded">Publication: {d.id}</span>
+            )
+          }
+          if(d.depth === 2) {
+            return (
+              <span className="bg-black text-white p-2 rounded">Post: {d.id}</span>
+            )
+          } else {
+            return (
+              <span className="bg-black text-white p-2 rounded">Tag: {d.id}</span>
+            )
+          }
+        }}
+        arcLabelsSkipAngle={12}
         arcLabelsTextColor={{
             from: 'color',
             modifiers: [
                 [
                     'darker',
-                    1.4
+                    2
                 ]
             ]
         }}
