@@ -6,10 +6,7 @@ import DetailsProvider from "./context/DetailsContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    template:'%s | HashProfiles',
-    default:'HashProfiles'
-  },
+  title: "HashProfiles",
   description: "Fetches user details from hashnode api and renders them",
 };
 
