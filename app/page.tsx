@@ -1,6 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import useLocalStorage from "use-local-storage";
 import {
   Merriweather_Sans,
   Roboto_Condensed,
@@ -25,8 +26,8 @@ export default function Home() {
   const [searchingUser, setSearchingUser] = useState<string>("");
 
   const { details, searchedUser, setSearchedUser } = useDetailsContext();
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  console.log(details);
+  const [recentSearches, setRecentSearches] = useLocalStorage<string[]>("recentSearches", []);
+  const MAX_RECENT_SEARCHES = 10; // Maximum number of recent searches to store
   // fetch bhargav , victoria
 
   return (
@@ -52,10 +53,16 @@ export default function Home() {
 
             setSearchedUser(searchingUser);
 
-            setRecentSearches((prevSearchedUser) => [
-              searchingUser,
-              ...prevSearchedUser,
-            ]);
+            setRecentSearches(prevSearchedUser => {
+              // If prevSearchedUser is undefined, default to an empty array
+              const safePrevSearchedUser = prevSearchedUser || [];
+        
+              // Create a new list with the new search at the top, avoiding duplicates
+              const updatedSearches = [searchingUser, ...safePrevSearchedUser.filter(user => user !== searchingUser)];
+              
+              // Limit the number of searches to store
+              return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
+            });
           }}
         >
           Search
@@ -159,9 +166,9 @@ export default function Home() {
         </h2>
         <div className="flex space-x-2  ">
         {recentSearches.map((recentSearch, index) => (
-          <a key={index} href={`/${recentSearch}`} className="leading-7 rounded-full bg-black text-white py-1 px-2 ">
+          <Link key={index} href={`/${recentSearch}`} className="leading-7 rounded-full bg-black text-white py-1 px-2 ">
             {recentSearch}
-          </a>
+          </Link>
         ))}
         </div>
       </div>
