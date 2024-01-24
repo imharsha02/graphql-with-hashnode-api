@@ -157,11 +157,13 @@ export default function Home() {
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Recent Searches
         </h2>
+        <div className="flex space-x-2  ">
         {recentSearches.map((recentSearch, index) => (
-          <p key={index} className="leading-7 [&:not(:first-child)]:mt-6">
+          <a key={index} href={`/${recentSearch}`} className="leading-7 rounded-full bg-black text-white py-1 px-2 ">
             {recentSearch}
-          </p>
+          </a>
         ))}
+        </div>
       </div>
 
       {/* Rendering details */}
