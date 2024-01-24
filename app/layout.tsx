@@ -12,15 +12,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  searchedUser=""
 }: {
   children: React.ReactNode;
-  searchedUser?:string
 }) {
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-300 p-24`}>
-        <DetailsProvider searchedUser={searchedUser}>{children}</DetailsProvider>
+        <DetailsProvider>{children}</DetailsProvider>
       </body>
     </html>
   );

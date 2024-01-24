@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 interface UserDetails {
   data: {
@@ -51,6 +51,9 @@ interface UserDetails {
             posts: {
               edges: {
                 node: {
+                  tags: [
+                    {name: string}
+                  ];
                   title: string;
                 };
               }[];
@@ -141,10 +144,10 @@ const query = `
 `;
 
 const DetailsProvider = ({
-  children,
+  children
 }: {
   children: React.ReactNode;
-  searchedUser: string;
+
 }) => {
   const [searchedUser, setSearchedUser] = useState<string>("");
   const [details, setDetails] = useState<UserDetails | null>(null);
@@ -179,4 +182,5 @@ const DetailsProvider = ({
   );
 };
 
+export const useDetailsContext = () => useContext(detailsContext)
 export default DetailsProvider;

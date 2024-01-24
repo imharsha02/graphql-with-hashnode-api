@@ -4,7 +4,7 @@ import { detailsContext } from "../context/DetailsContext";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
-
+import { ResponsiveSunburst } from '@nivo/sunburst'
 const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   const { details, setSearchedUser } = useContext(detailsContext);
 
@@ -20,9 +20,31 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
     // If the usernames don't match, this means the data is not for the correct user.
     return <div>Loading user details...</div>;
   }
-
+  console.log(details.data.user.publications.edges)
   // Now it's safe to assume details.data.user contains the correct user info
-
+  const data = {
+    name: "publications",
+    color: "hsl(297, 70%, 50%)",
+    loc: details.data.user.publications.totalDocuments,
+    children: 
+      details.data.user.publications.edges.map(pub => ({
+        name: pub.node.title,
+        loc: pub.node.posts.edges.length,
+        color: "hsl(234, 70%, 50%)",
+        children: pub.node.posts.edges.map(post => ({
+          name: post.node.title,
+          color: "hsl(229, 70%, 50%)",
+          loc: post.node.tags ? post.node.tags.length : 1,
+          children: post.node.tags?.map((tag) => ({
+            name: tag.name,
+            color: "hsl(250, 70%, 50%)",
+            loc: 1
+          }))
+        }))
+      }))
+    
+  }
+  console.log("data", data)
   return (
     <div className="h-full">
       <div className="grid grid-cols-2">
@@ -147,6 +169,38 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             ))
           )}
         </div>
+      </div>
+      <div className="h-96">
+      <ResponsiveSunburst
+        data={data}
+        
+        margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+        id="name"
+        value="loc"
+        cornerRadius={2}
+        borderColor={{ theme: 'background' }}
+        colors={{ scheme: 'nivo' }}
+        childColor={{
+            from: 'color',
+            modifiers: [
+                [
+                    'brighter',
+                    0.1
+                ]
+            ]
+        }}
+        enableArcLabels={true}
+        arcLabelsSkipAngle={10}
+        arcLabelsTextColor={{
+            from: 'color',
+            modifiers: [
+                [
+                    'darker',
+                    1.4
+                ]
+            ]
+        }}
+    />
       </div>
     </div>
   );

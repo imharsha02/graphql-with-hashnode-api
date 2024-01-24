@@ -1,13 +1,12 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState } from "react";
-import { detailsContext } from "./context/DetailsContext";
-
+import { useState } from "react";
+import { useDetailsContext } from "./context/DetailsContext";
 export default function Home() {
   const [searchingUser, setSearchingUser] = useState<string>("");
 
-  const { details, searchedUser, setSearchedUser } = useContext(detailsContext);
+  const { details, searchedUser, setSearchedUser } = useDetailsContext();
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   console.log(details);
 

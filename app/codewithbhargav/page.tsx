@@ -1,12 +1,11 @@
 "use client";
-import { detailsContext } from "../context/DetailsContext";
+import { useDetailsContext } from "../context/DetailsContext";
 import { useContext, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
-import { GiSwordSmithing } from "react-icons/gi";
 const CodewithbhargavPage = () => {
-  const { details, setSearchedUser } = useContext(detailsContext);
+  const { details, setSearchedUser } = useDetailsContext();
   useEffect(() => {
     setSearchedUser("codewithbhargav");
   }, [setSearchedUser]);
