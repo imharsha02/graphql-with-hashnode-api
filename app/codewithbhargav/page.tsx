@@ -1,6 +1,7 @@
 "use client";
+import { Metadata } from "next";
 import { useDetailsContext } from "../context/DetailsContext";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
@@ -12,7 +13,7 @@ const CodewithbhargavPage = () => {
   if (!details) {
     return <div>Loading user details...</div>;
   }
-
+  
   return (
     <div className="h-full">
       <div className="grid grid-cols-2 content-center mb-10">
@@ -25,7 +26,7 @@ const CodewithbhargavPage = () => {
             width={256}
             height={256}
             className="rounded-lg mx-auto"
-          />
+            />
           <h2 className="text-2xl font-bold">{details.data.user.username}</h2>
           <p className=" text-lg font-semibold">{details.data.user.tagline}</p>
         </div>
@@ -78,34 +79,34 @@ const CodewithbhargavPage = () => {
             <span className="font-semibold text-xl">Connect: </span>
             {details.data.user.socialMediaLinks.twitter ? (
               <Link
-                target="_blank"
-                href={details.data.user.socialMediaLinks.twitter}
+              target="_blank"
+              href={details.data.user.socialMediaLinks.twitter}
               >
                 <FaTwitter className="bg-blue-500 text-white p-[2px] w-4 h-4" />
               </Link>
             ) : (
               ""
-            )}
+              )}
             {details.data.user.socialMediaLinks.github ? (
               <Link
-                target="_blank"
-                href={details.data.user.socialMediaLinks.github}
+              target="_blank"
+              href={details.data.user.socialMediaLinks.github}
               >
                 <FaGithub className="w-4 h-4" />
               </Link>
             ) : (
               ""
-            )}
+              )}
             {details.data.user.socialMediaLinks.linkedin ? (
               <Link
-                target="_blank"
-                href={details.data.user.socialMediaLinks.linkedin}
+              target="_blank"
+              href={details.data.user.socialMediaLinks.linkedin}
               >
                 <FaLinkedin className="w-4 h-4 bg-white text-blue-500" />
               </Link>
             ) : (
               ""
-            )}
+              )}
           </div>
         </div>
       </div>
@@ -136,7 +137,7 @@ const CodewithbhargavPage = () => {
                 </li>
               </ul>
             ))
-          )}
+            )}
         </div>
       </div>
     </div>
