@@ -178,7 +178,9 @@ const DetailsProvider = ({
         console.log("Error: ", error);
       }
     };
-    fetchDetails();
+    if(searchedUser && searchedUser != "" ) {
+      fetchDetails();
+    }
   }, [searchedUser]);
   console.log("Details from the database are:", details);
   return (

@@ -9,10 +9,11 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   const { details, setSearchedUser } = useContext(detailsContext);
 
   useEffect(() => {
+    console.log("called new", params.searchedUser)
     setSearchedUser(params.searchedUser); // Trigger a re-fetch with the new user
   }, [params.searchedUser, setSearchedUser]);
 
-  if (!details) {
+  if (!details ) {
     return <div>Loading user details...</div>;
   }
 
@@ -22,29 +23,6 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   }
   console.log(details.data.user.publications.edges)
 
-  // DATA TO USE IN GRAPH
-  // const data = {
-  //   name: "publications",
-  //   color: "hsl(297, 70%, 50%)",
-  //   loc: 1,
-  //   children: 
-  //     details.data.user.publications.edges.map(pub => ({
-  //       name: pub.node.title,
-  //       loc: pub.node.posts.edges.length/details.data.user.publications.totalDocuments,
-  //       color: "hsl(234, 70%, 50%)",
-  //       children: pub.node.posts.edges.map(post => ({
-  //         name: post.node.title,
-  //         color: "hsl(229, 70%, 50%)",
-  //         loc: post.node.tags ? post.node.tags.length/pub.node.posts.edges.length : 1/pub.node.posts.edges.length,
-  //         children: post.node.tags?.map((tag) => ({
-  //           name: tag.name,
-  //           color: "hsl(250, 70%, 50%)",
-  //           loc: 1
-  //         }))
-  //       }))
-  //     }))
-    
-  // }
   const data = {
     name: "publications",
     // color: "hsl(297, 70%, 50%)",

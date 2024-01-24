@@ -27,11 +27,7 @@ export default function Home() {
   const { details, searchedUser, setSearchedUser } = useDetailsContext();
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   console.log(details);
-  // fetch bhargav , victoria 
-
-  if (!details) {
-    return <div>Loading...</div>;
-  }
+  // fetch bhargav , victoria
 
   return (
     <main className="min-h-screen space-y-2">
@@ -241,7 +237,69 @@ export default function Home() {
           </CardContent>
         </Card>
       ) : searchedUser ? (
-        <h1>No user with that name</h1>
+        <Card className="mx-auto flex flex-col max-w-2xl space-y-3">
+          {/* SECTION TITLE */}
+          <CardHeader>
+            <CardTitle
+              className={`font-bold text-2xl tracking-wider ${roboto.className}`}
+            >
+              User details
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent className="space-y-5">
+            {/* USERNAME */}
+            <div className="flex gap-1">
+              <span
+                className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
+              >
+                Username:
+              </span>{" "}
+              <p
+                className={` ${open_sans.className} tracking-wide text-lg p-8 bg-gray-400`}
+              ></p>
+            </div>
+
+            {/* NAME */}
+            <div className="flex gap-1">
+              <span
+                className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
+              >
+                Name:
+              </span>{" "}
+              <p
+                className={` ${open_sans.className} tracking-wide text-lg p-8 bg-gray-400`}
+              ></p>
+            </div>
+
+            {/* PROFILE PICTURE */}
+            <div className="flex gap-1">
+              <span
+                className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
+              >
+                Profile pic:
+              </span>
+              <div className="rounded-lg bg-gray-400 w-[50px] h-[50px]" />
+            </div>
+
+            {/* USER BIO */}
+            <div className="flex gap-1">
+              <span
+                className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
+              >
+                Bio:
+              </span>{" "}
+              <p
+                className={` ${open_sans.className} tracking-wide text-lg p-8 bg-gray-400`}
+              ></p>
+            </div>
+
+            {/* LINK TO USER PAGE */}
+            <Button asChild>
+              <Link href={`${searchedUser}`}>Know More</Link>
+            </Button>
+          </CardContent>
+        </Card>
       ) : null}
     </main>
   );
