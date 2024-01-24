@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen space-y-2">
-      <h1 className="font-semibold text-3xl mb-2">Hashnode users</h1>
+      <h1 className="font-bold text-3xl mb-2">HashProfiles</h1>
 
       {/* Search bar */}
       <div>
@@ -85,8 +85,8 @@ export default function Home() {
       </div>
 
       {/* Recent searches */}
-      <div className="mt-2 mb-1">
-        <h2 className="text-xl font-semibold">Recent Searches</h2>
+      <div className="mt-2">
+        <h2 className="font-bold text-2xl">Recent Searches</h2>
         {recentSearches.map((recentSearch, index) => (
           <button
             key={index}
@@ -94,7 +94,7 @@ export default function Home() {
               setSearchingUser(recentSearch);
               setSearchedUser(recentSearch);
             }}
-            className="flex space-y-3 hover:underline"
+            className="flex space-y-3 text-lg hover:underline"
           >
             {recentSearch}
           </button>
@@ -103,21 +103,42 @@ export default function Home() {
 
       {/* Rendering details */}
       {searchedUser && details && details.data.user ? (
-        <div className="flex flex-col space-y-1">
-          <h2 className="text-xl font-semibold">User details</h2>
-          <div>Username: {details.data.user.username}</div>
-          <div>Name: {details.data.user.name}</div>
-          <div className="flex items-center gap-3">
-            Profile pic:
+        // USER DETAILS CONTAINER
+        <div className="mx-auto flex flex-col max-w-2xl space-y-3">
+          {/* SECTION TITLE */}
+          <h2 className="font-bold text-2xl">User details</h2>
+
+          {/* USERNAME */}
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-xl">Username:</span>{" "}
+            <p className="text-lg">{details.data.user.username}</p>
+          </div>
+
+          {/* NAME */}
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-xl">Name:</span>{" "}
+            <p className="text-lg">{details.data.user.name}</p>
+          </div>
+
+          {/* PROFILE PICTURE */}
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-xl">Profile pic:</span>
             <Image
               src={details.data.user.profilePicture}
               alt="profile picture"
-              width={38}
-              height={38}
+              width={50}
+              height={50}
               className="rounded-lg"
             />
           </div>
-          <div>Bio: {details.data.user.bio.text}</div>
+
+          {/* USER BIO */}
+          <div className="flex items-center gap-1">
+            <span className="font-semibold text-xl">Bio:</span>{" "}
+            <p className="text-lg">{details.data.user.bio.text}</p>
+          </div>
+
+          {/* LINK TO USER PAGE */}
           <Link
             href={`/${searchedUser}`}
             className="py-2 px-5 bg-white w-max hover:scale-110 transition"

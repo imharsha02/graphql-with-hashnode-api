@@ -21,7 +21,8 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
     return <div>Loading user details...</div>;
   }
   console.log(details.data.user.publications.edges)
-  // Now it's safe to assume details.data.user contains the correct user info
+
+  // DATA TO USE IN GRAPH
   const data = {
     name: "publications",
     color: "hsl(297, 70%, 50%)",
@@ -170,6 +171,8 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           )}
         </div>
       </div>
+
+      {/* POSTS STATS */}
       <div className="h-96">
       <ResponsiveSunburst
         data={data}
