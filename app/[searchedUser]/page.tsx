@@ -2,6 +2,7 @@
 import { useContext, useEffect } from "react";
 import { detailsContext } from "../context/DetailsContext";
 import { FaHashnode } from "react-icons/fa6";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -18,12 +19,12 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   }, [params.searchedUser, setSearchedUser]);
 
   if (!details) {
-    return <div>Loading user details...</div>;
+    return <AiOutlineLoading3Quarters  className="animate-spin text-6xl w-10 h-10/>;
   }
 
   if (details.data.user.username !== params.searchedUser) {
     // If the usernames don't match, this means the data is not for the correct user.
-    return <div>Loading user details...</div>;
+    return <AiOutlineLoading3Quarters  className="animate-spin text-6xl w-10 h-10/>;
   }
   console.log(details.data.user.publications.edges);
 
