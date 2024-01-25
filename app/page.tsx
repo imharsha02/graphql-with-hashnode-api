@@ -14,6 +14,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useDetailsContext } from "./context/DetailsContext";
+import UserCard from "@/components/ui/UserCard/UserCard";
 const merriweather_sans = Merriweather_Sans({ subsets: ["latin"] });
 const open_sans = Open_Sans({
   subsets: ["latin"],
@@ -88,89 +89,85 @@ export default function Home() {
         OR Select a hashnode user from below
       </p>
 
-      <div className="flex space-x-2">
+      <div className="grid grid-cols-[repeat(auto-fit,max(300px))] gap-[30px] p-0">
         {/* USER 1 */}
         <Link href="/victoria">
-          <Card>
-            <CardContent className="pt-6 space-y-5">
-              <div className="flex items-center gap-2">
-                <span
-                  className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-                >
-                  Username:
-                </span>{" "}
-                <p className={`tracking-wide text-lg ${open_sans.className}`}>
-                  victoria
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-                >
-                  Name:
-                </span>{" "}
-                <p className={` text-lg tracking-wide ${open_sans.className}`}>
-                  Victoria Lo
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-                >
-                  Profile pic:
-                </span>
-                <Image
-                  src="https://cdn.hashnode.com/res/hashnode/image/upload/v1672984921463/25B4G5fCJ.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
-                  alt="profile pic"
-                  width={45}
-                  height={45}
-                  className="rounded-lg"
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <UserCard>
+            <div className="flex items-center gap-2">
+              <span
+                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
+              >
+                Username:
+              </span>{" "}
+              <p className={`tracking-wide text-lg ${open_sans.className}`}>
+                victoria
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
+              >
+                Name:
+              </span>{" "}
+              <p className={` text-lg tracking-wide ${open_sans.className}`}>
+                Victoria Lo
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
+              >
+                Profile pic:
+              </span>
+              <Image
+                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1672984921463/25B4G5fCJ.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
+                alt="profile pic"
+                width={45}
+                height={45}
+                className="rounded-lg"
+              />
+            </div>
+          </UserCard>
         </Link>
 
         {/* USER 2 */}
         <Link href={`/iamshadmirza`}>
-          <Card>
-            <CardContent className="pt-6 space-y-5">
-              <div className="flex items-center gap-2">
-                <span
-                  className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-                >
-                  Username:
-                </span>{" "}
-                <p className={`tracking-wide ${open_sans.className} text-lg`}>
-                  iamshadmirza
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-                >
-                  Name:
-                </span>{" "}
-                <p className={`tracking-wide text-lg ${open_sans.className}`}>
-                  Shad Mirza
-                </p>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-                >
-                  Profile pic:
-                </span>
-                <Image
-                  src="https://cdn.hashnode.com/res/hashnode/image/upload/v1663070035311/JaSbIMfve.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
-                  alt="profile pic"
-                  width={45}
-                  height={45}
-                  className="rounded-lg"
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <UserCard>
+            <div className="flex items-center gap-2">
+              <span
+                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
+              >
+                Username:
+              </span>{" "}
+              <p className={`tracking-wide text-lg ${open_sans.className}`}>
+                iamshadmirza
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
+              >
+                Name:
+              </span>{" "}
+              <p className={` text-lg tracking-wide ${open_sans.className}`}>
+                Shad Mirza
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
+              >
+                Profile pic:
+              </span>
+              <Image
+                src="https://cdn.hashnode.com/res/hashnode/image/upload/v1663070035311/JaSbIMfve.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
+                alt="profile pic"
+                width={45}
+                height={45}
+                className="rounded-lg"
+              />
+            </div>
+          </UserCard>
         </Link>
       </div>
 

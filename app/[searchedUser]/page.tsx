@@ -8,6 +8,7 @@ import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { ResponsiveSunburst } from "@nivo/sunburst";
 import { Button } from "@/components/ui/button";
+import UserCard from "@/components/ui/UserCard/UserCard";
 const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   const { details, setSearchedUser } = useContext(detailsContext);
 
@@ -54,7 +55,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   return (
     <div className="h-full">
       <h2 className="text-center text-6xl font-bold p-4">User Profile</h2>
-      <div className="grid grid-cols-2">
+      <UserCard className="mx-auto max-w-max hover:border-gray-200">
         {/* IMAGE, USERNAME AND TAG */}
         <div className="text-center flex flex-col space-y-2">
           <Image
@@ -73,18 +74,18 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
         </div>
 
         {/* DETAILS */}
-        <div className="flex flex-col justify-between">
+        <div className="mt-3 space-y-5 max-w-xl mx-auto">
           {/* NAME */}
-          <div className="flex items-center gap-1">
-            <span className="font-semibold text-xl">Name:</span>
+          <div className="flex gap-1">
+            <span className="font-semibold text-xl">Name:{" "}</span>
             <p className="text-lg">{details.data.user.name}</p>
           </div>
 
           {/* BIO */}
           {details.data.user.bio.text != "" ? (
-            <div className="flex flex-col justify-center gap-1">
+            <div className="flex gap-1">
               <span className="font-semibold text-xl">Bio:</span>{" "}
-              <p className="text-lg pl-10">{details.data.user.bio.text}</p>
+              <p className="text-lg">{details.data.user.bio.text}</p>
             </div>
           ) : (
             ""
@@ -92,7 +93,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
 
           {/* BADGES */}
           {details.data.user.badges.length > 0 ? (
-            <div className="flex flex-col justify-center gap-1">
+            <div className="flex flex-col mx-auto justify-center gap-1">
               <span className="font-semibold text-xl">Badges:</span>{" "}
               {details.data.user.badges.map((badge) => (
                 <p className="text-lg pl-10" key={badge.id}>
@@ -105,7 +106,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           )}
 
           {/* FOLLOWERS */}
-          <div className="flex items-center gap-1">
+          <div className="flex gap-1">
             <span className="font-semibold text-xl">Followed by:</span>
             <p className="text-lg">
               {details.data.user.followersCount}{" "}
@@ -114,16 +115,16 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           </div>
 
           {/* FOLLOWING */}
-          <div className="flex items-center gap-1">
-            <span className="font-semibold text-xl">Following:</span>
-            <p className="text-lg">
+          <div className="flex gap-1">
+            <p className="font-semibold text-xl">Following:</p>
+            <span className="text-lg">
               {details.data.user.followingsCount}{" "}
               {details.data.user.followingsCount === 1 ? "person" : "people"}
-            </p>
+            </span>
           </div>
 
           {/* SOCIAL MEDIA LINKS */}
-          <div className="flex items-center gap-1">
+          <div className="flex gap-1">
             <span className="font-semibold text-xl">Connect: </span>
             {details.data.user.socialMediaLinks.twitter ? (
               <Link
@@ -158,20 +159,21 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           </div>
 
           {/* VIEW USER'S HASHNODE PROFILE */}
-          <Button asChild className="w-max">
+          <Button asChild className=" mx-auto w-full">
             <Link
               target="_blank"
               href={`https://hashnode.com/@${params.searchedUser}`}
             >
-              <span className="mr-2 text-lg">Go to hashnode profile</span> <FaHashnode className="bg-blue-500 rounded-full text-white w-5 h-5" />
+              <span className="mr-2 text-lg">Go to hashnode profile</span>{" "}
+              <FaHashnode className="bg-blue-500 rounded-full text-white w-5 h-5" />
             </Link>
           </Button>
         </div>
-      </div>
+      </UserCard>
 
       {/* POSTS STATS */}
       <div className="space-y-5 mt-10">
-        <h2 className="text-center text-6xl font-bold p-4">
+        <h2 className="text-center text-6xl font-bold mb-4">
           User Post Statistics
         </h2>
         <div className="bg-black rounded-lg p-4 text-center max-w-72 text-white m-auto">
