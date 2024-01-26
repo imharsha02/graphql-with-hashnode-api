@@ -104,9 +104,17 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             <div className="flex flex-col mx-auto justify-center gap-1">
               <span className="font-semibold text-xl">Badges:</span>{" "}
               {details.data.user.badges.map((badge) => (
-                <p className="text-lg flex gap-1 items-center pl-10" key={badge.id}>
+                <p
+                  className="text-lg flex gap-1 items-center pl-10"
+                  key={badge.id}
+                >
                   {badge.name}
-                  <Image src={badge.image} alt={badge.name} width={20} height={20} />
+                  <Image
+                    src={badge.image}
+                    alt={badge.name}
+                    width={20}
+                    height={20}
+                  />
                 </p>
               ))}
             </div>
@@ -115,28 +123,44 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           )}
 
           {/* FOLLOWERS */}
-          <div>
-            <p className="font-semibold text-xl">Followed by:</p>
+          {details.data.user.followers.nodes.length === 0 ? (
+            ""
+          ) : (
+            <div>
+              <p className="font-semibold text-xl">Followed by:</p>
 
               {details.data.user.followers.nodes.map((person) => (
                 <p key={person.name}>
-
-                  <Link href={`/${person.username}`} className="hover:underline pl-10">{person.name}</Link>
+                  <Link
+                    href={`/${person.username}`}
+                    className="hover:underline pl-10"
+                  >
+                    {person.name}
+                  </Link>
                 </p>
-                ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* FOLLOWING */}
-          <div>
-            <h4 className="font-semibold text-xl">Following:</h4>
+          {details.data.user.follows.nodes.length != 0 ? (
+            <div>
+              <h4 className="font-semibold text-xl">Following:</h4>
 
               {details.data.user.follows.nodes.map((person) => (
                 <p key={person.name}>
-
-                  <Link href={`/${person.username}`} className="hover:underline pl-10">{person.name}</Link>
+                  <Link
+                    href={`/${person.username}`}
+                    className="hover:underline pl-10"
+                  >
+                    {person.name}
+                  </Link>
                 </p>
-                ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            ""
+          )}
 
           {/* SOCIAL MEDIA LINKS */}
           <div className="flex gap-1 items-center">
@@ -175,15 +199,15 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
 
           {/* VIEW USER'S HASHNODE PROFILE */}
         </div>
-          <Button asChild className="mt-3 w-full">
-            <Link
-              target="_blank"
-              href={`https://hashnode.com/@${params.searchedUser}`}
-            >
-              <span className="mr-2 text-lg">Go to hashnode profile</span>{" "}
-              <FaHashnode className="bg-blue-500 rounded-full text-white w-5 h-5" />
-            </Link>
-          </Button>
+        <Button asChild className="mt-3 w-full">
+          <Link
+            target="_blank"
+            href={`https://hashnode.com/@${params.searchedUser}`}
+          >
+            <span className="mr-2 text-lg">Go to hashnode profile</span>{" "}
+            <FaHashnode className="bg-blue-500 rounded-full text-white w-5 h-5" />
+          </Link>
+        </Button>
       </UserCard>
 
       {/* POSTS STATS */}
