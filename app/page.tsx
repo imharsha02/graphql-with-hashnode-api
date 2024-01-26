@@ -70,6 +70,12 @@ export default function Home() {
               const safePrevSearchedUser = prevSearchedUser || [];
 
               // Create a new list with the new search at the top, avoiding duplicates
+              const updatedSearches = [
+                searchingUser,
+                ...safePrevSearchedUser.filter(
+                  (user) => user !== searchingUser
+                ),
+              ];
 
               // Limit the number of searches to store
               return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
