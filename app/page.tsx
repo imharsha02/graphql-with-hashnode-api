@@ -70,12 +70,6 @@ export default function Home() {
               const safePrevSearchedUser = prevSearchedUser || [];
 
               // Create a new list with the new search at the top, avoiding duplicates
-              const updatedSearches = [
-                searchingUser,
-                ...safePrevSearchedUser.filter(
-                  (user) => user !== searchingUser
-                ),
-              ];
 
               // Limit the number of searches to store
               return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
@@ -196,9 +190,7 @@ export default function Home() {
       </div>
 
       {/* RENDERING DETAILS */}
-      {searchedUser && details && details.data.user ? (
-        // USER DETAILS CONTAINER
-        <Card className="mx-auto flex flex-col max-w-2xl space-y-3">
+      {!details&& searchedUser?(<UserDataLoading />):searchedUser && details && details.data.user?(<Card className="mx-auto flex flex-col max-w-2xl space-y-3">
           {/* SECTION TITLE */}
           <CardHeader>
             <CardTitle
@@ -270,10 +262,7 @@ export default function Home() {
               <Link href={`${searchedUser}`}>Know More</Link>
             </Button>
           </CardContent>
-        </Card>
-      ) : searchedUser ? (
-        <UserDataLoading />
-      ) : null}
+        </Card>):searchedUser && (!details || !details.data.user)?(<p>User not found</p>):null}
     </main>
   );
 }
