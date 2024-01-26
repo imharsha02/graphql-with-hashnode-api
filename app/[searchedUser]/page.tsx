@@ -71,7 +71,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             alt={details.data.user.name}
             width={256}
             height={256}
-            className="rounded-lg mx-auto"
+            className="rounded-lg mx-auto border-black border-2"
           />
           <div>
             <h2 className="text-2xl font-bold">{details.data.user.username}</h2>
