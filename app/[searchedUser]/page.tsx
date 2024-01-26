@@ -104,8 +104,9 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             <div className="flex flex-col mx-auto justify-center gap-1">
               <span className="font-semibold text-xl">Badges:</span>{" "}
               {details.data.user.badges.map((badge) => (
-                <p className="text-lg pl-10" key={badge.id}>
+                <p className="text-lg flex gap-1 items-center pl-10" key={badge.id}>
                   {badge.name}
+                  <Image src={badge.image} alt={badge.name} width={20} height={20} />
                 </p>
               ))}
             </div>

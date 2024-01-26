@@ -39,6 +39,7 @@ interface UserDetails {
         id: string;
         name: string;
         description: string;
+        image:string;
       }[];
       tagline: string;
       dateJoined: string;
