@@ -7,6 +7,18 @@ interface UserDetails {
       id: string;
       username: string;
       name: string;
+      follows:{
+        nodes:{
+          name:string;
+          username:string;
+        }[]
+      }
+      followers:{
+        nodes:{
+          name:string;
+          username:string;
+        }[]
+      }
       bio: {
         markdown: string;
         html: string;
@@ -28,8 +40,6 @@ interface UserDetails {
         name: string;
         description: string;
       }[];
-      followersCount: number;
-      followingsCount: number;
       tagline: string;
       dateJoined: string;
       location: string;
@@ -63,7 +73,6 @@ interface UserDetails {
         }[];
       };
       deactivated: boolean;
-      following: boolean;
       followsBack: boolean;
       isPro: boolean;
     };
@@ -76,15 +85,32 @@ export const detailsContext = createContext<{
 }>({ details: null, setSearchedUser: () => {}, searchedUser: "" });
 
 const query = `
-  query User($username: String!, $pageSize: Int!) {
+query User($username: String!, $pageSize: Int!, $page:Int!) {
   user(username: $username) {
     id
     username
     name
+    location
+    follows(pageSize:$pageSize, page:$page){
+      nodes{
+        name
+        username
+      }
+    }
+    followers(pageSize:$pageSize, page:$page){
+      nodes{
+        name
+        username
+      }
+    }
     bio {
       markdown
       html
-      text
+      text,
+      
+    }
+    posts(pageSize: $pageSize, page: $pageSize) {
+      totalDocuments
     }
     profilePicture
     socialMediaLinks {
@@ -120,21 +146,25 @@ const query = `
       tagline
       followersCount
       postsCount
+      
     }
     publications(first: $pageSize) {
+      
       totalDocuments
       edges {
         node {
           title
           posts(first: $pageSize) {
+            totalDocuments
             edges {
               node {
-                title
+                title,
                 url
                 tags {
                   name
                   
-                }
+                },
+                publishedAt
               }
             }
           }
@@ -142,7 +172,7 @@ const query = `
       }
     }
     deactivated
-    following
+    
     followsBack
     isPro
   }
@@ -162,6 +192,7 @@ const DetailsProvider = ({
       const vars = {
         username: searchedUser,
         pageSize: 12,
+        page:1
       };
       try {
         const response = await fetch("https://gql.hashnode.com/", {

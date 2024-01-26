@@ -19,12 +19,19 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   }, [params.searchedUser, setSearchedUser]);
 
   if (!details) {
-    return <AiOutlineLoading3Quarters  className="animate-spin text-6xl w-10 h-10/>;
+    return (
+      <AiOutlineLoading3Quarters
+        className="animate-spin text-6xl w-10 h-10/>;
   }
 
   if (details.data.user.username !== params.searchedUser) {
-    // If the usernames don't match, this means the data is not for the correct user.
-    return <AiOutlineLoading3Quarters  className="animate-spin text-6xl w-10 h-10/>;
+ <AiOutlineLoading3Quarters  className="
+        animate-spin
+        text-6xl
+        w-10
+        h-10
+      />
+    );
   }
   console.log(details.data.user.publications.edges);
 
@@ -56,7 +63,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   return (
     <div className="h-full">
       <h2 className="text-center text-6xl font-bold p-4">User Profile</h2>
-      <UserCard className="mx-auto max-w-max hover:border-gray-200">
+      <UserCard className="mx-auto max-w-2xl hover:border-gray-200">
         {/* IMAGE, USERNAME AND TAG */}
         <div className="text-center flex flex-col space-y-2">
           <Image
@@ -78,7 +85,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
         <div className="mt-3 space-y-5 max-w-xl mx-auto">
           {/* NAME */}
           <div className="flex gap-1">
-            <span className="font-semibold text-xl">Name:{" "}</span>
+            <span className="font-semibold text-xl">Name: </span>
             <p className="text-lg">{details.data.user.name}</p>
           </div>
 
@@ -107,25 +114,31 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           )}
 
           {/* FOLLOWERS */}
-          <div className="flex gap-1">
-            <span className="font-semibold text-xl">Followed by:</span>
-            <p className="text-lg">
-              {details.data.user.followersCount}{" "}
-              {details.data.user.followersCount === 1 ? "person" : "people"}
-            </p>
+          <div>
+            <p className="font-semibold text-xl">Followed by:</p>
+
+              {details.data.user.followers.nodes.map((person) => (
+                <p key={person.name}>
+
+                  <Link href={`/${person.username}`} className="hover:underline pl-10">{person.name}</Link>
+                </p>
+                ))}
           </div>
 
           {/* FOLLOWING */}
-          <div className="flex gap-1">
-            <p className="font-semibold text-xl">Following:</p>
-            <span className="text-lg">
-              {details.data.user.followingsCount}{" "}
-              {details.data.user.followingsCount === 1 ? "person" : "people"}
-            </span>
+          <div>
+            <h4 className="font-semibold text-xl">Following:</h4>
+
+              {details.data.user.follows.nodes.map((person) => (
+                <p key={person.name}>
+
+                  <Link href={`/${person.username}`} className="hover:underline pl-10">{person.name}</Link>
+                </p>
+                ))}
           </div>
 
           {/* SOCIAL MEDIA LINKS */}
-          <div className="flex gap-1">
+          <div className="flex gap-1 items-center">
             <span className="font-semibold text-xl">Connect: </span>
             {details.data.user.socialMediaLinks.twitter ? (
               <Link
@@ -160,7 +173,8 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           </div>
 
           {/* VIEW USER'S HASHNODE PROFILE */}
-          <Button asChild className=" mx-auto w-full">
+        </div>
+          <Button asChild className="mt-3 w-full">
             <Link
               target="_blank"
               href={`https://hashnode.com/@${params.searchedUser}`}
@@ -169,7 +183,6 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
               <FaHashnode className="bg-blue-500 rounded-full text-white w-5 h-5" />
             </Link>
           </Button>
-        </div>
       </UserCard>
 
       {/* POSTS STATS */}
