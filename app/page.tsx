@@ -174,7 +174,7 @@ export default function Home() {
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Recent Searches
         </h2>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 flex-wrap space-y-2 md:space-y-0 md:flex-nowrap">
           {recentSearches.map((recentSearch, index) => (
             <div
               key={index}
