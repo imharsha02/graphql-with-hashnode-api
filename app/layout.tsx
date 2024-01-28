@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} p-5 overflow-hidden mx-auto md:px-24 md:py-16`}>
+      <body className={`${inter.className} p-5 mx-auto md:px-24 md:py-16`}>
         <DetailsProvider>{children}</DetailsProvider>
       </body>
     </html>

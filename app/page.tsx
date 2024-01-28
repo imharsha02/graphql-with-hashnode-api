@@ -87,7 +87,7 @@ export default function Home() {
         OR Select a hashnode user from below
       </p>
 
-      <div className="grid grid-cols-[repeat(auto-fit,max(300px))] justify-center gap-[30px] p-0">
+      <div className="grid grid-cols-[repeat(auto-fit,max(300px))] justify-center md:justify-start gap-[30px] p-0">
         {/* USER 1 */}
         <Link href="/victoria">
           <UserCard>
