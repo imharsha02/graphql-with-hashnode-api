@@ -3,10 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UserDataLoading } from "@/components/ui/UserDataLoading";
 import useLocalStorage from "use-local-storage";
-import {
-  Roboto_Condensed,
-  Open_Sans,
-} from "next/font/google";
+import { Roboto_Condensed, Open_Sans } from "next/font/google";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +19,6 @@ const roboto = Roboto_Condensed({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 export default function Home() {
-  
   // STATE VARIABLES AND UPDATER FUNCTIONS
   const [searchingUser, setSearchingUser] = useState<string>("");
   const [recentSearches, setRecentSearches] = useLocalStorage<string[]>(
@@ -32,7 +28,7 @@ export default function Home() {
 
   // USING useDetailsContext HOOK
   const { details, searchedUser, setSearchedUser } = useDetailsContext();
-  
+
   // USING A VARIABLE TO USE TO LIMIT DATA STORED IN LOCALHOST
   const MAX_RECENT_SEARCHES = 10;
 
@@ -43,13 +39,14 @@ export default function Home() {
   };
 
   return (
-    <main className="space-y-2">
-      <h1 className="scroll-m-20 text-3xl font-semibold tracking-tight first:mt-0">
+    <main className="space-y-5 p-3 md:px-0">
+      {/* HEADING */}
+      <h1 className="scroll-m-20 text-3xl font-semibold text-center md:text-left tracking-tight first:mt-0">
         HashProfiles
       </h1>
 
-      {/* Search bar */}
-      <div className="flex items-center gap-2">
+      {/* SEARCH BAR */}
+      <div className="flex items-center gap-2 justify-center md:justify-start overflow-hidden">
         <Input
           type="text"
           placeholder="Enter a username..."
@@ -64,7 +61,6 @@ export default function Home() {
             e.preventDefault();
 
             setSearchedUser(searchingUser);
-
             setRecentSearches((prevSearchedUser) => {
               // If prevSearchedUser is undefined, default to an empty array
               const safePrevSearchedUser = prevSearchedUser || [];
@@ -85,12 +81,13 @@ export default function Home() {
           Search
         </Button>
       </div>
-      {/* Options between users */}
-      <p className="leading-7 [&:not(:first-child)]:mt-6">
+
+      {/* OPTIONS BETWEEN USERS */}
+      <p className="leading-7 text-center md:text-left">
         OR Select a hashnode user from below
       </p>
 
-      <div className="grid grid-cols-[repeat(auto-fit,max(300px))] gap-[30px] p-0">
+      <div className="grid grid-cols-[repeat(auto-fit,max(300px))] justify-center gap-[30px] p-0">
         {/* USER 1 */}
         <Link href="/victoria">
           <UserCard>
@@ -172,8 +169,8 @@ export default function Home() {
         </Link>
       </div>
 
-      {/* Recent searches */}
-      <div className="mt-2">
+      {/* RECENT SEARCHES */}
+      <div>
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Recent Searches
         </h2>
@@ -196,7 +193,10 @@ export default function Home() {
       </div>
 
       {/* RENDERING DETAILS */}
-      {!details&& searchedUser?(<UserDataLoading />):searchedUser && details && details.data.user?(<Card className="mx-auto flex flex-col max-w-2xl space-y-3">
+      {!details && searchedUser ? (
+        <UserDataLoading />
+      ) : searchedUser && details && details.data.user ? (
+        <Card className="mx-auto flex flex-col max-w-2xl space-y-3">
           {/* SECTION TITLE */}
           <CardHeader>
             <CardTitle
@@ -264,11 +264,14 @@ export default function Home() {
             )}
 
             {/* LINK TO USER PAGE */}
-            <Button asChild>
+            <Button className="hover:scale-105 transition" asChild>
               <Link href={`${searchedUser}`}>Know More</Link>
             </Button>
           </CardContent>
-        </Card>):searchedUser && (!details || !details.data.user)?(<p>User not found</p>):null}
+        </Card>
+      ) : searchedUser && (!details || !details.data.user) ? (
+        <p>User not found</p>
+      ) : null}
     </main>
   );
 }
