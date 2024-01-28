@@ -178,15 +178,15 @@ export default function Home() {
           {recentSearches.map((recentSearch, index) => (
             <div
               key={index}
-              className="leading-7 rounded-full bg-black text-white p-1 px-2"
+              className="leading-7 rounded-full flex space-x-2 items-center bg-black text-white py-1 px-3"
             >
               <Link href={`/${recentSearch}`}>{recentSearch}</Link>
-              <Button
+              <button
                 onClick={() => removeRecentSearch(recentSearch)}
-                className="text-white bg-black"
+                className="text-white"
               >
                 X
-              </Button>
+              </button>
             </div>
           ))}
         </div>
