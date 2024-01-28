@@ -50,7 +50,7 @@ export default function Home() {
         <Input
           type="text"
           placeholder="Enter a username..."
-          className="w-max ${open_sans.className}"
+          className={`w-max ${open_sans.className}`}
           value={searchingUser}
           onChange={(e) => {
             setSearchingUser(e.target.value);
