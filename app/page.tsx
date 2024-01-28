@@ -170,10 +170,14 @@ export default function Home() {
       </div>
 
       {/* RECENT SEARCHES */}
-      <div>
+      <div className="space-y-2">
+
+        {/* RECENT SEARCHES SECTION */}
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Recent Searches
         </h2>
+
+        {/* SEARCHES MADE */}
         <div className="flex space-x-2 flex-wrap space-y-2 md:space-y-0">
           {recentSearches.map((recentSearch, index) => (
             <div
