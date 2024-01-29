@@ -13,19 +13,19 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   const { details, setSearchedUser } = useContext(detailsContext);
   const [showAllFollowing, setShowAllFollowing] = useState(false);
   const [showAllFollowers, setShowAllFollowers] = useState(false);
-  const initialFollowingsToShow = 4;
+  const initialFollowingsToShow = 4; // SETTING NUMBER OF FOLLOWERS/FOLLOWINGS TO SHOW
   const [followersToShow, setFollowersToShow] = useState(
-    initialFollowingsToShow
+    initialFollowingsToShow //FOLLOWERS STATE
   );
   const [followingsToShow, setFollowingsToShow] = useState(
-    initialFollowingsToShow
+    initialFollowingsToShow // FOLLOWINGS STATE
   );
 
-  const toggleFollowersDisplay = () => {
-    setShowAllFollowers(!showAllFollowers);
+  const toggleFollowersDisplay = () => { // FUNCTION RUNS WHEN BUTTON IS CLICKED
+    setShowAllFollowers(!showAllFollowers); // FOR CHANGING THE TEXT IN THE BUTTON
 
-    const totalFollowers = details?.data?.user?.followers?.nodes?.length ?? 0;
-  setFollowersToShow(showAllFollowers ? initialFollowingsToShow : totalFollowers);
+    const totalFollowers = details?.data?.user?.followers?.nodes?.length ?? 0; // STORING THE LENGTH OF ALL THE FOLLOWERS. IF LENGTH VALUE IS NULL/UNDEFINED (CHECKED BY '??'), 0 IS STORED
+  setFollowersToShow(showAllFollowers ? initialFollowingsToShow : totalFollowers); // IF SHOWALLFOLLWERS IS TRUE, SHOW ALL THE FOLLOWERS, ELSE SHOW ONLY THE INITIAL NUMBER OF FOLLOWERS
 };
 
   const toggleFollowingsDisplay = () => {
