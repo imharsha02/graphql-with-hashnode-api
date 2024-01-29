@@ -21,18 +21,23 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
     initialFollowingsToShow // FOLLOWINGS STATE
   );
 
-  const toggleFollowersDisplay = () => { // FUNCTION RUNS WHEN BUTTON IS CLICKED
+  const toggleFollowersDisplay = () => {
+    // FUNCTION RUNS WHEN BUTTON IS CLICKED
     setShowAllFollowers(!showAllFollowers); // FOR CHANGING THE TEXT IN THE BUTTON
 
     const totalFollowers = details?.data?.user?.followers?.nodes?.length ?? 0; // STORING THE LENGTH OF ALL THE FOLLOWERS. IF LENGTH VALUE IS NULL/UNDEFINED (CHECKED BY '??'), 0 IS STORED
-  setFollowersToShow(showAllFollowers ? initialFollowingsToShow : totalFollowers); // IF SHOWALLFOLLWERS IS TRUE, SHOW ALL THE FOLLOWERS, ELSE SHOW ONLY THE INITIAL NUMBER OF FOLLOWERS
-};
+    setFollowersToShow(
+      showAllFollowers ? initialFollowingsToShow : totalFollowers
+    ); // IF SHOWALLFOLLWERS IS TRUE, SHOW ALL THE FOLLOWERS, ELSE SHOW ONLY THE INITIAL NUMBER OF FOLLOWERS
+  };
 
   const toggleFollowingsDisplay = () => {
     setShowAllFollowing(!showAllFollowing);
 
     const totalFollowings = details?.data?.user?.follows?.nodes?.length ?? 0;
-  setFollowingsToShow(showAllFollowing ? initialFollowingsToShow : totalFollowings);
+    setFollowingsToShow(
+      showAllFollowing ? initialFollowingsToShow : totalFollowings
+    );
   };
 
   useEffect(() => {
@@ -68,7 +73,6 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
 
       return {
         name: pub.node.title,
-        // color: "hsl(234, 70%, 50%)",
         children: pub.node.posts.edges.map((post) => ({
           url: post.node.url,
           name: post.node.title,
@@ -149,23 +153,22 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             ""
           ) : (
             <div>
-              <p className="font-semibold text-xl mb-2">Followed by:</p>
-
-              {details.data.user.followers.nodes
-                .slice(0, followersToShow)
-                .map((person) => (
-                  <p
-                    key={person.name}
-                    className="pl-10 space-y-2 flex md:space-y-0"
-                  >
-                    <Link
-                      href={`/${person.username}`}
-                      className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
-                    >
-                      {person.name}
-                    </Link>
-                  </p>
-                ))}
+              {/* SECTION TITLE */}
+              <h4 className="font-semibold text-xl mb-2">Followed by:</h4>
+              <div className="flex flex-wrap md:space-x-2 pl-10 space-x-3 space-y-3 items-center">
+                {details.data.user.followers.nodes
+                  .slice(0, followersToShow)
+                  .map((person) => (
+                    <p key={person.name} className="space-y-2 md:space-y-0">
+                      <Link
+                        href={`/${person.username}`}
+                        className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
+                      >
+                        {person.name}
+                      </Link>
+                    </p>
+                  ))}
+              </div>
               <button
                 onClick={toggleFollowersDisplay}
                 className="bg-black text-white rounded-md mt-5 px-5 py-2"
@@ -179,22 +182,23 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           {details.data.user.follows.nodes.length != 0 ? (
             <div>
               <h4 className="font-semibold text-xl mb-2">Following:</h4>
-
-              {details.data.user.follows.nodes
-                .slice(0, followingsToShow)
-                .map((person) => (
-                  <p
-                    key={person.name}
-                    className="pl-10 space-y-2 flex md:space-y-0"
-                  >
-                    <Link
-                      href={`/${person.username}`}
-                      className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
+              <div className="flex flex-wrap md:space-x-2 pl-10 space-x-3 space-y-3 items-center">
+                {details.data.user.follows.nodes
+                  .slice(0, followingsToShow)
+                  .map((person) => (
+                    <p
+                      key={person.name}
+                      className="space-y-2 flex md:space-y-0"
                     >
-                      {person.name}
-                    </Link>
-                  </p>
-                ))}
+                      <Link
+                        href={`/${person.username}`}
+                        className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
+                      >
+                        {person.name}
+                      </Link>
+                    </p>
+                  ))}
+              </div>
               <button
                 onClick={toggleFollowingsDisplay}
                 className="bg-black text-white rounded-md mt-5 px-5 py-2"
