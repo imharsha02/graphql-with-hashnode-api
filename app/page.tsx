@@ -90,7 +90,7 @@ export default function Home() {
       <div className="grid grid-cols-[repeat(auto-fit,max(300px))] justify-center md:justify-start gap-[30px] p-0">
         {/* USER 1 */}
         <Link href="/victoria">
-          <UserCard>
+          <UserCard className="hover:scale-105">
             <div className="flex items-center gap-2">
               <span
                 className={`tracking-wide text-xl ${open_sans.className} font-bold`}
@@ -130,7 +130,7 @@ export default function Home() {
 
         {/* USER 2 */}
         <Link href={`/iamshadmirza`}>
-          <UserCard>
+          <UserCard className="hover:scale-105">
             <div className="flex items-center gap-2">
               <span
                 className={`tracking-wide text-xl ${open_sans.className} font-bold`}
@@ -171,7 +171,6 @@ export default function Home() {
 
       {/* RECENT SEARCHES */}
       <div className="space-y-2">
-
         {/* RECENT SEARCHES SECTION */}
         <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
           Recent Searches

@@ -1,9 +1,8 @@
 "use client";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { detailsContext } from "../context/DetailsContext";
 import { FaHashnode } from "react-icons/fa6";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
@@ -12,6 +11,29 @@ import { Button } from "@/components/ui/button";
 import UserCard from "@/components/ui/UserCard/UserCard";
 const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   const { details, setSearchedUser } = useContext(detailsContext);
+  const [showAllFollowing, setShowAllFollowing] = useState(false);
+  const [showAllFollowers, setShowAllFollowers] = useState(false);
+  const initialFollowingsToShow = 4;
+  const [followersToShow, setFollowersToShow] = useState(
+    initialFollowingsToShow
+  );
+  const [followingsToShow, setFollowingsToShow] = useState(
+    initialFollowingsToShow
+  );
+
+  const toggleFollowersDisplay = () => {
+    setShowAllFollowers(!showAllFollowers);
+
+    const totalFollowers = details?.data?.user?.followers?.nodes?.length ?? 0;
+  setFollowersToShow(showAllFollowers ? initialFollowingsToShow : totalFollowers);
+};
+
+  const toggleFollowingsDisplay = () => {
+    setShowAllFollowing(!showAllFollowing);
+
+    const totalFollowings = details?.data?.user?.follows?.nodes?.length ?? 0;
+  setFollowingsToShow(showAllFollowing ? initialFollowingsToShow : totalFollowings);
+  };
 
   useEffect(() => {
     console.log("called new", params.searchedUser);
@@ -63,7 +85,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   return (
     <div className="h-full">
       <h2 className="text-center text-6xl font-bold p-4">User Profile</h2>
-      <UserCard className="mx-auto max-w-2xl hover:scale-100 hover:border-gray-200">
+      <UserCard className="mx-auto max-w-2xl hover:border-gray-200">
         {/* IMAGE, USERNAME AND TAG */}
         <div className="text-center flex flex-col space-y-2">
           <Image
@@ -127,36 +149,58 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             ""
           ) : (
             <div>
-              <p className="font-semibold text-xl">Followed by:</p>
+              <p className="font-semibold text-xl mb-2">Followed by:</p>
 
-              {details.data.user.followers.nodes.map((person) => (
-                <p key={person.name}>
-                  <Link
-                    href={`/${person.username}`}
-                    className="hover:underline pl-10"
+              {details.data.user.followers.nodes
+                .slice(0, followersToShow)
+                .map((person) => (
+                  <p
+                    key={person.name}
+                    className="pl-10 space-y-2 flex md:space-y-0"
                   >
-                    {person.name}
-                  </Link>
-                </p>
-              ))}
+                    <Link
+                      href={`/${person.username}`}
+                      className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
+                    >
+                      {person.name}
+                    </Link>
+                  </p>
+                ))}
+              <button
+                onClick={toggleFollowersDisplay}
+                className="bg-black text-white rounded-md mt-5 px-5 py-2"
+              >
+                {showAllFollowers ? "Hide" : "Show all"}
+              </button>
             </div>
           )}
 
           {/* FOLLOWING */}
           {details.data.user.follows.nodes.length != 0 ? (
             <div>
-              <h4 className="font-semibold text-xl">Following:</h4>
+              <h4 className="font-semibold text-xl mb-2">Following:</h4>
 
-              {details.data.user.follows.nodes.map((person) => (
-                <p key={person.name}>
-                  <Link
-                    href={`/${person.username}`}
-                    className="hover:underline pl-10"
+              {details.data.user.follows.nodes
+                .slice(0, followingsToShow)
+                .map((person) => (
+                  <p
+                    key={person.name}
+                    className="pl-10 space-y-2 flex md:space-y-0"
                   >
-                    {person.name}
-                  </Link>
-                </p>
-              ))}
+                    <Link
+                      href={`/${person.username}`}
+                      className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
+                    >
+                      {person.name}
+                    </Link>
+                  </p>
+                ))}
+              <button
+                onClick={toggleFollowingsDisplay}
+                className="bg-black text-white rounded-md mt-5 px-5 py-2"
+              >
+                {showAllFollowing ? "Hide" : "Show all"}
+              </button>
             </div>
           ) : (
             ""

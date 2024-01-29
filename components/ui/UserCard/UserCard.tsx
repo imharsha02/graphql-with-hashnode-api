@@ -7,7 +7,7 @@ const UserCard = ({
 }) => {
   return (
     <div
-      className={`${className} shadow-lg shadow-gray-300 border rounded-lg border-solid p-3 border-gray-200 hover:scale-105 transition`}
+      className={`${className} shadow-lg shadow-gray-300 border rounded-lg border-solid p-3 border-gray-200 transition`}
     >
       {children}
     </div>
