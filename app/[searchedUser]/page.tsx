@@ -63,7 +63,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   return (
     <div className="h-full">
       <h2 className="text-center text-6xl font-bold p-4">User Profile</h2>
-      <UserCard className="mx-auto max-w-2xl hover:border-gray-200">
+      <UserCard className="mx-auto max-w-2xl hover:scale-100 hover:border-gray-200">
         {/* IMAGE, USERNAME AND TAG */}
         <div className="text-center flex flex-col space-y-2">
           <Image
