@@ -7,7 +7,7 @@ import { Roboto_Condensed, Open_Sans } from "next/font/google";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDetailsContext } from "./context/DetailsContext";
 import UserCard from "@/components/ui/UserCard/UserCard";
 const open_sans = Open_Sans({
@@ -31,6 +31,19 @@ export default function Home() {
 
   // USING A VARIABLE TO USE TO LIMIT DATA STORED IN LOCALHOST
   const MAX_RECENT_SEARCHES = 10;
+  useEffect(() => {
+    // Only add to recent searches if user details are successfully fetched
+    if (details && details.data && details.data.user) {
+      setRecentSearches((prevSearchedUser) => {
+        const safePrevSearchedUser = prevSearchedUser || [];
+        // Add the searched user to the top of the list, avoiding duplicates
+        return [
+          searchedUser,
+          ...safePrevSearchedUser.filter((user) => user !== searchedUser),
+        ].slice(0, MAX_RECENT_SEARCHES);
+      });
+    }
+  }, [details, searchedUser, setRecentSearches]);
 
   const removeRecentSearch = (searchToRemove: string) => {
     setRecentSearches(
@@ -61,21 +74,7 @@ export default function Home() {
             e.preventDefault();
 
             setSearchedUser(searchingUser);
-            setRecentSearches((prevSearchedUser) => {
-              // If prevSearchedUser is undefined, default to an empty array
-              const safePrevSearchedUser = prevSearchedUser || [];
-
-              // Create a new list with the new search at the top, avoiding duplicates
-              const updatedSearches = [
-                searchingUser,
-                ...safePrevSearchedUser.filter(
-                  (user) => user !== searchingUser
-                ),
-              ];
-
-              // Limit the number of searches to store
-              return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
-            });
+            
           }}
         >
           Search
