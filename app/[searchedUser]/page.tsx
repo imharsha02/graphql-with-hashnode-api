@@ -66,7 +66,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
     name: "publications",
     // color: "hsl(297, 70%, 50%)",
     loc: 1, // Root level
-    children: details.data.user.publications.edges.map((pub) => {
+    children: details?.data?.user?.publications?.edges?.map((pub) => {
       const baseValue = 1; // Base value for each publication's existence
       const postCount = pub.node.posts.edges.length;
       const totalValueForPublication = baseValue + postCount;
