@@ -171,7 +171,12 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
               </div>
               <button
                 onClick={toggleFollowersDisplay}
-                className="bg-black text-white rounded-md mt-5 px-5 py-2"
+                className={
+                  details.data.user.followers.nodes.length === 4
+                    ? `bg-neutral-500 text-white cursor-not-allowed rounded-md mt-5 px-5 py-2`
+                    : `bg-black text-white rounded-md mt-5 px-5 py-2`
+                }
+                disabled={details.data.user.followers.nodes.length === 4}
               >
                 {showAllFollowers ? "Hide" : "Show all"}
               </button>
@@ -201,7 +206,12 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
               </div>
               <button
                 onClick={toggleFollowingsDisplay}
-                className="bg-black text-white rounded-md mt-5 px-5 py-2"
+                disabled={details.data.user.followers.nodes.length === 4}
+                className={
+                  details.data.user.followers.nodes.length === 4
+                    ? `bg-neutral-500 text-white cursor-not-allowed rounded-md mt-5 px-5 py-2`
+                    : `bg-black text-white rounded-md mt-5 px-5 py-2`
+                }
               >
                 {showAllFollowing ? "Hide" : "Show all"}
               </button>
