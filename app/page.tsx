@@ -7,7 +7,7 @@ import { Roboto_Condensed, Open_Sans } from "next/font/google";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDetailsContext } from "./context/DetailsContext";
 import UserCard from "@/components/ui/UserCard/UserCard";
 const open_sans = Open_Sans({
@@ -38,6 +38,22 @@ export default function Home() {
     );
   };
 
+  useEffect(() => {
+    // Only update recent searches when details are available for the searchedUser
+    if (details && details.data && details.data.user && details.data.user.username === searchedUser) {
+      setRecentSearches((prevSearchedUser) => {
+        const safePrevSearchedUser = prevSearchedUser || [];
+        // Add the searched user to the top of the list, avoiding duplicates
+        const updatedSearches = [
+          searchedUser,
+          ...safePrevSearchedUser.filter((user) => user !== searchedUser),
+        ];
+        // Limit the number of searches to store
+        return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
+      });
+    }
+  }, [details, searchedUser, setRecentSearches]);
+
   return (
     <main className="space-y-5 p-3 md:px-0">
       {/* HEADING */}
@@ -61,21 +77,6 @@ export default function Home() {
             e.preventDefault();
 
             setSearchedUser(searchingUser);
-            setRecentSearches((prevSearchedUser) => {
-              // If prevSearchedUser is undefined, default to an empty array
-              const safePrevSearchedUser = prevSearchedUser || [];
-
-              // Create a new list with the new search at the top, avoiding duplicates
-              const updatedSearches = [
-                searchingUser,
-                ...safePrevSearchedUser.filter(
-                  (user) => user !== searchingUser
-                ),
-              ];
-
-              // Limit the number of searches to store
-              return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
-            });
           }}
         >
           Search
