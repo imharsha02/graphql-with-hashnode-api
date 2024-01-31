@@ -129,20 +129,19 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           {details.data.user.badges.length > 0 ? (
             <div className="flex flex-col mx-auto justify-center gap-1">
               <span className="font-semibold text-xl">Badges:</span>{" "}
-              {details.data.user.badges.map((badge) => (
-                <p
-                  className="text-lg flex gap-1 items-center pl-10"
-                  key={badge.id}
-                >
-                  {badge.name}
-                  <Image
-                    src={badge.image}
-                    alt={badge.name}
-                    width={20}
-                    height={20}
-                  />
-                </p>
-              ))}
+              <div className="flex flex-wrap pl-10">
+                {details.data.user.badges.map((badge) => (
+                  <p className="text-lg pl-5 flex gap-1 items-center" key={badge.id}>
+                    {badge.name}
+                    <Image
+                      src={badge.image}
+                      alt={badge.name}
+                      width={20}
+                      height={20}
+                    />
+                  </p>
+                ))}
+              </div>
             </div>
           ) : (
             ""
@@ -155,14 +154,14 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             <div>
               {/* SECTION TITLE */}
               <h4 className="font-semibold text-xl mb-2">Followed by:</h4>
-              <div className="flex flex-wrap md:space-x-2 pl-10 space-x-3 space-y-3 items-center">
+              <div className={`flex space-y-3 flex-wrap md:space-x-2 pl-10 space-x-3 items-center`}>
                 {details.data.user.followers.nodes
                   .slice(0, followersToShow)
                   .map((person) => (
                     <p key={person.name} className="space-y-2 md:space-y-0">
                       <Link
                         href={`/${person.username}`}
-                        className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
+                        className="leading-7 rounded-full items-center bg-black text-white p-2"
                       >
                         {person.name}
                       </Link>
@@ -187,17 +186,17 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           {details.data.user.follows.nodes.length != 0 ? (
             <div>
               <h4 className="font-semibold text-xl mb-2">Following:</h4>
-              <div className="flex flex-wrap md:space-x-2 pl-10 space-x-3 space-y-3 items-center">
+              <div className={`flex flex-wrap md:space-x-2 pl-10 space-x-3 space-y-3 items-center`}>
                 {details.data.user.follows.nodes
                   .slice(0, followingsToShow)
                   .map((person) => (
                     <p
                       key={person.name}
-                      className="space-y-2 flex md:space-y-0"
+                      className="flex"
                     >
                       <Link
                         href={`/${person.username}`}
-                        className="mt-1 leading-7 rounded-full items-center bg-black text-white p-2"
+                        className="leading-7 rounded-full items-center bg-black text-white p-2"
                       >
                         {person.name}
                       </Link>
@@ -269,68 +268,72 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
       </UserCard>
 
       {/* POSTS STATS */}
-      <div className="space-y-5 mt-10">
-        <h2 className="text-center text-6xl font-bold mb-4">
-          User Post Statistics
-        </h2>
-        <div className="bg-black rounded-lg p-4 text-center max-w-72 text-white m-auto">
-          Visualize user publications and their posts in the chart below
+      {details.data.user.publications.edges.length !== 0 ? (
+        <div className="space-y-5 mt-10">
+          <h2 className="text-center text-6xl font-bold mb-4">
+            User Post Statistics
+          </h2>
+          <div className="bg-black rounded-lg p-4 text-center max-w-72 text-white m-auto">
+            Visualize user publications and their posts in the chart below
+          </div>
+          <div className="h-[500px]">
+            <ResponsiveSunburst
+              isInteractive
+              onClick={(d: any) => {
+                console.log(d);
+                if (d.data.url) {
+                  window.open(d.data.url, "_blank");
+                }
+              }}
+              borderWidth={8}
+              data={data}
+              cornerRadius={5}
+              margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              id="name"
+              value="loc"
+              borderColor={{ theme: "background" }}
+              colors={{ scheme: "nivo" }}
+              childColor={{
+                from: "color",
+                modifiers: [["brighter", 0.4]],
+              }}
+              colorBy="id"
+              enableArcLabels={true}
+              // arcLabel={}
+              tooltip={(d) => {
+                console.log("d", d);
+                if (d.depth === 1) {
+                  return (
+                    <span className="bg-black text-white p-2 rounded">
+                      Publication: {d.id}
+                    </span>
+                  );
+                }
+                if (d.depth === 2) {
+                  return (
+                    <span className="bg-black text-white p-2 rounded">
+                      Post: {d.id}
+                    </span>
+                  );
+                } else {
+                  return (
+                    <span className="bg-black text-white p-2 rounded">
+                      Tag: {d.id}
+                    </span>
+                  );
+                }
+              }}
+              arcLabelsSkipAngle={12}
+              arcLabelsTextColor={{
+                from: "color",
+                modifiers: [["darker", 2]],
+              }}
+            />
+          </div>
         </div>
-        <div className="h-[500px]">
-          <ResponsiveSunburst
-            isInteractive
-            onClick={(d: any) => {
-              console.log(d);
-              if (d.data.url) {
-                window.open(d.data.url, "_blank");
-              }
-            }}
-            borderWidth={8}
-            data={data}
-            cornerRadius={5}
-            margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
-            id="name"
-            value="loc"
-            borderColor={{ theme: "background" }}
-            colors={{ scheme: "nivo" }}
-            childColor={{
-              from: "color",
-              modifiers: [["brighter", 0.4]],
-            }}
-            colorBy="id"
-            enableArcLabels={true}
-            // arcLabel={}
-            tooltip={(d) => {
-              console.log("d", d);
-              if (d.depth === 1) {
-                return (
-                  <span className="bg-black text-white p-2 rounded">
-                    Publication: {d.id}
-                  </span>
-                );
-              }
-              if (d.depth === 2) {
-                return (
-                  <span className="bg-black text-white p-2 rounded">
-                    Post: {d.id}
-                  </span>
-                );
-              } else {
-                return (
-                  <span className="bg-black text-white p-2 rounded">
-                    Tag: {d.id}
-                  </span>
-                );
-              }
-            }}
-            arcLabelsSkipAngle={12}
-            arcLabelsTextColor={{
-              from: "color",
-              modifiers: [["darker", 2]],
-            }}
-          />
-        </div>
-      </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };
