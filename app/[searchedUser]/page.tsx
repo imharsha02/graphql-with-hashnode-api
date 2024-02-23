@@ -8,18 +8,28 @@ import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { ResponsiveSunburst } from "@nivo/sunburst";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import UserCard from "@/components/ui/UserCard/UserCard";
+import { TypographyH2 } from "@/components/TypographyH2";
+import { TypographySmall } from "@/components/TypographySmall";
+import { TypographyLarge } from "@/components/TypographyLarge";
+import { TypographyP } from "@/components/TypographyP";
+import { TypographyH1 } from "@/components/TypographyH1";
+import { Card, CardContent } from "@/components/ui/card";
 const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   const { details, setSearchedUser } = useContext(detailsContext);
   const [showAllFollowing, setShowAllFollowing] = useState(false);
   const [showAllFollowers, setShowAllFollowers] = useState(false);
+  const [showAllBadges, setShowAllBadges] = useState(false);
   const initialFollowingsToShow = 4; // SETTING NUMBER OF FOLLOWERS/FOLLOWINGS TO SHOW
+  const initialBadgesToShow = 4; // SETTING NUMBER OF BADGES TO SHOW
   const [followersToShow, setFollowersToShow] = useState(
     initialFollowingsToShow //FOLLOWERS STATE
   );
   const [followingsToShow, setFollowingsToShow] = useState(
     initialFollowingsToShow // FOLLOWINGS STATE
   );
+  const [badgesToShow,setBadgesToShow] = useState(initialBadgesToShow)
 
   const toggleFollowersDisplay = () => {
     // FUNCTION RUNS WHEN BUTTON IS CLICKED
@@ -29,6 +39,16 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
     setFollowersToShow(
       showAllFollowers ? initialFollowingsToShow : totalFollowers
     ); // IF SHOWALLFOLLWERS IS TRUE, SHOW ALL THE FOLLOWERS, ELSE SHOW ONLY THE INITIAL NUMBER OF FOLLOWERS
+  };
+
+  const toggleBadgesDisplay = () => {
+    // FUNCTION RUNS WHEN BUTTON IS CLICKED
+    setShowAllBadges(!showAllBadges); // FOR CHANGING THE TEXT IN THE BUTTON
+
+    const totalBadges = details?.data?.user?.badges?.length ?? 0; // STORING THE LENGTH OF ALL THE BADGES. IF LENGTH VALUE IS NULL/UNDEFINED (CHECKED BY '??'), 0 IS STORED
+    setBadgesToShow(
+      showAllBadges ? initialBadgesToShow : totalBadges
+    ); // IF SHOWALLBADGES IS TRUE, SHOW ALL THE BADGES, ELSE SHOW ONLY THE INITIAL NUMBER OF BADGES
   };
 
   const toggleFollowingsDisplay = () => {
@@ -88,7 +108,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   console.log("data", data);
   return (
     <div className="h-full">
-      <h2 className="text-center text-6xl font-bold p-4">User Profile</h2>
+      <TypographyH2>User Profile</TypographyH2>
       <UserCard className="mx-auto max-w-2xl hover:border-gray-200">
         {/* IMAGE, USERNAME AND TAG */}
         <div className="text-center flex flex-col space-y-2">
@@ -100,26 +120,24 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             className="rounded-lg mx-auto"
           />
           <div>
-            <h2 className="text-2xl font-bold">{details.data.user.username}</h2>
-            <p className=" text-base font-semibold">
-              {details.data.user.tagline}
-            </p>
+            <TypographyH2>{details.data.user.username}</TypographyH2>
+            <TypographyLarge>{details.data.user.tagline}</TypographyLarge>
           </div>
         </div>
 
         {/* DETAILS */}
         <div className="mt-3 space-y-5 max-w-xl mx-auto">
           {/* NAME */}
-          <div className="flex gap-1">
-            <span className="font-semibold text-xl">Name: </span>
-            <p className="text-lg">{details.data.user.name}</p>
+          <div className="flex gap-1 items-center">
+            <TypographyLarge>Name: </TypographyLarge>
+            <TypographyP>{details.data.user.name}</TypographyP>
           </div>
 
           {/* BIO */}
           {details.data.user.bio.text != "" ? (
-            <div className="flex gap-1">
-              <span className="font-semibold text-xl">Bio:</span>{" "}
-              <p className="text-lg">{details.data.user.bio.text}</p>
+            <div className="flex gap-1 items-center">
+              <TypographyLarge>Bio:</TypographyLarge>{" "}
+              <TypographyP>{details.data.user.bio.text}</TypographyP>
             </div>
           ) : (
             ""
@@ -127,11 +145,11 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
 
           {/* BADGES */}
           {details.data.user.badges.length > 0 ? (
-            <div className="flex flex-col mx-auto justify-center gap-1">
-              <span className="font-semibold text-xl">Badges:</span>{" "}
-              <div className="flex flex-wrap pl-10">
-                {details.data.user.badges.map((badge) => (
-                  <p className="text-lg pl-5 flex gap-1 items-center" key={badge.id}>
+            <div>
+              <TypographyLarge>Badges:</TypographyLarge>{" "}
+              <div className="pl-10 flex flex-wrap gap-3 mb-2">
+                {details.data.user.badges.slice(0,badgesToShow).map((badge) => (
+                  <Badge className="gap-1" key={badge.id}>
                     {badge.name}
                     <Image
                       src={badge.image}
@@ -139,9 +157,16 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
                       width={20}
                       height={20}
                     />
-                  </p>
+                  </Badge>
                 ))}
               </div>
+              <Button
+                onClick={toggleBadgesDisplay}
+                disabled={details.data.user.badges.length === 4}
+                className="ml-12"
+              >
+                {showAllBadges ? "Hide" : "Show all"}
+              </Button>
             </div>
           ) : (
             ""
@@ -153,32 +178,25 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           ) : (
             <div>
               {/* SECTION TITLE */}
-              <h4 className="font-semibold text-xl mb-2">Followed by:</h4>
-              <div className={`flex space-y-3 flex-wrap md:space-x-2 pl-10 space-x-3 items-center`}>
+              <TypographyLarge>Followed by:</TypographyLarge>
+              <div
+                className="flex flex-wrap md:space-x-2 pl-10 space-x-3 gap-y-3 items-center mb-2"
+              >
                 {details.data.user.followers.nodes
                   .slice(0, followersToShow)
                   .map((person) => (
-                    <p key={person.name} className="space-y-2 md:space-y-0">
-                      <Link
-                        href={`/${person.username}`}
-                        className="leading-7 rounded-full items-center bg-black text-white p-2"
-                      >
-                        {person.name}
-                      </Link>
-                    </p>
+                    <Badge className="py-2 px-5" key={person.name}>
+                      <Link href={`/${person.username}`}>{person.name}</Link>
+                    </Badge>
                   ))}
               </div>
-              <button
+              <Button
                 onClick={toggleFollowersDisplay}
-                className={
-                  details.data.user.followers.nodes.length === 4
-                    ? `bg-neutral-500 text-white cursor-not-allowed rounded-md mt-5 px-5 py-2`
-                    : `bg-black text-white rounded-md mt-5 px-5 py-2`
-                }
+                className="ml-12"
                 disabled={details.data.user.followers.nodes.length === 4}
               >
                 {showAllFollowers ? "Hide" : "Show all"}
-              </button>
+              </Button>
             </div>
           )}
 
@@ -186,34 +204,24 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
           {details.data.user.follows.nodes.length != 0 ? (
             <div>
               <h4 className="font-semibold text-xl mb-2">Following:</h4>
-              <div className={`flex flex-wrap md:space-x-2 pl-10 space-x-3 space-y-3 items-center`}>
+              <div
+                className={`flex flex-wrap mb-2 md:space-x-2 pl-10 space-x-3 gap-y-3 items-center`}
+              >
                 {details.data.user.follows.nodes
                   .slice(0, followingsToShow)
                   .map((person) => (
-                    <p
-                      key={person.name}
-                      className="flex"
-                    >
-                      <Link
-                        href={`/${person.username}`}
-                        className="leading-7 rounded-full items-center bg-black text-white p-2"
-                      >
-                        {person.name}
-                      </Link>
-                    </p>
+                    <Badge key={person.name} className="py-2 px-5">
+                      <Link href={`/${person.username}`}>{person.name}</Link>
+                    </Badge>
                   ))}
               </div>
-              <button
+              <Button
                 onClick={toggleFollowingsDisplay}
                 disabled={details.data.user.followers.nodes.length === 4}
-                className={
-                  details.data.user.followers.nodes.length === 4
-                    ? `bg-neutral-500 text-white cursor-not-allowed rounded-md mt-5 px-5 py-2`
-                    : `bg-black text-white rounded-md mt-5 px-5 py-2`
-                }
+                className="ml-12"
               >
                 {showAllFollowing ? "Hide" : "Show all"}
-              </button>
+              </Button>
             </div>
           ) : (
             ""
@@ -261,7 +269,9 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             target="_blank"
             href={`https://hashnode.com/@${params.searchedUser}`}
           >
-            <span className="mr-2 text-lg">Go to hashnode profile</span>{" "}
+            <TypographyLarge className="mr-2">
+              Go to hashnode profile
+            </TypographyLarge>{" "}
             <FaHashnode className="bg-blue-500 rounded-full text-white w-5 h-5" />
           </Link>
         </Button>
@@ -270,12 +280,14 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
       {/* POSTS STATS */}
       {details.data.user.publications.edges.length !== 0 ? (
         <div className="space-y-5 mt-10">
-          <h2 className="text-center text-6xl font-bold mb-4">
-            User Post Statistics
-          </h2>
-          <div className="bg-black rounded-lg p-4 text-center max-w-72 text-white m-auto">
-            Visualize user publications and their posts in the chart below
-          </div>
+          <TypographyH1>User Post Statistics</TypographyH1>
+          <Card className="w-max mx-auto bg-primary">
+            <CardContent className="p-6">
+              <TypographyLarge className="text-center text-primary-foreground">
+                Visualize user publications and their posts in the chart below
+              </TypographyLarge>
+            </CardContent>
+          </Card>
           <div className="h-[500px]">
             <ResponsiveSunburst
               isInteractive

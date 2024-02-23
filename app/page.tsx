@@ -9,7 +9,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDetailsContext } from "./context/DetailsContext";
+//COMPONENT IMPORTS
 import UserCard from "@/components/ui/UserCard/UserCard";
+import { TypographyP } from "@/components/TypographyP";
+import { TypographyH2 } from "@/components/TypographyH2";
+import { TypographyLarge } from "@/components/TypographyLarge";
+import { TypographySmall } from "@/components/TypographySmall";
+import { Badge } from "@/components/ui/badge";
 const open_sans = Open_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -40,7 +46,12 @@ export default function Home() {
 
   useEffect(() => {
     // Only update recent searches when details are available for the searchedUser
-    if (details && details.data && details.data.user && details.data.user.username === searchedUser) {
+    if (
+      details &&
+      details.data &&
+      details.data.user &&
+      details.data.user.username === searchedUser
+    ) {
       setRecentSearches((prevSearchedUser) => {
         const safePrevSearchedUser = prevSearchedUser || [];
         // Add the searched user to the top of the list, avoiding duplicates
@@ -57,9 +68,7 @@ export default function Home() {
   return (
     <main className="space-y-5 p-3 md:px-0">
       {/* HEADING */}
-      <h1 className="scroll-m-20 text-3xl font-semibold text-center md:text-left tracking-tight first:mt-0">
-        HashProfiles
-      </h1>
+      <TypographyH2>HashProfiles</TypographyH2>
 
       {/* SEARCH BAR */}
       <div className="flex items-center gap-2 justify-center md:justify-start overflow-hidden">
@@ -84,40 +93,24 @@ export default function Home() {
       </div>
 
       {/* OPTIONS BETWEEN USERS */}
-      <p className="leading-7 text-center md:text-left">
-        OR Select a hashnode user from below
-      </p>
+      <TypographyP>OR Select a hashnode user from below</TypographyP>
 
       <div className="grid grid-cols-[repeat(auto-fit,max(300px))] justify-center md:justify-start gap-[30px] p-0">
         {/* USER 1 */}
         <Link href="/victoria">
           <UserCard className="hover:scale-105">
             <div className="flex items-center gap-2">
-              <span
-                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-              >
-                Username:
-              </span>{" "}
-              <p className={`tracking-wide text-lg ${open_sans.className}`}>
-                victoria
-              </p>
+              <TypographyLarge>Username:</TypographyLarge>
+              <TypographySmall>Victoria</TypographySmall>
             </div>
+
             <div className="flex items-center gap-2">
-              <span
-                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-              >
-                Name:
-              </span>{" "}
-              <p className={` text-lg tracking-wide ${open_sans.className}`}>
-                Victoria Lo
-              </p>
+              <TypographyLarge>Name:</TypographyLarge>
+              <TypographySmall>Victoria Lo</TypographySmall>
             </div>
+
             <div className="flex items-center gap-2">
-              <span
-                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-              >
-                Profile pic:
-              </span>
+              <TypographyLarge>Profile pic:</TypographyLarge>
               <Image
                 src="https://cdn.hashnode.com/res/hashnode/image/upload/v1672984921463/25B4G5fCJ.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
                 alt="profile pic"
@@ -133,31 +126,17 @@ export default function Home() {
         <Link href={`/iamshadmirza`}>
           <UserCard className="hover:scale-105">
             <div className="flex items-center gap-2">
-              <span
-                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-              >
-                Username:
-              </span>{" "}
-              <p className={`tracking-wide text-lg ${open_sans.className}`}>
-                iamshadmirza
-              </p>
+              <TypographyLarge>Username:</TypographyLarge>
+              <TypographySmall>iamshadmirza</TypographySmall>
             </div>
+
             <div className="flex items-center gap-2">
-              <span
-                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-              >
-                Name:
-              </span>{" "}
-              <p className={` text-lg tracking-wide ${open_sans.className}`}>
-                Shad Mirza
-              </p>
+              <TypographyLarge>Name:</TypographyLarge>
+              <TypographySmall>Shad Mirza</TypographySmall>
             </div>
+
             <div className="flex items-center gap-2">
-              <span
-                className={`tracking-wide text-xl ${open_sans.className} font-bold`}
-              >
-                Profile pic:
-              </span>
+              <TypographyLarge>Profile pic:</TypographyLarge>
               <Image
                 src="https://cdn.hashnode.com/res/hashnode/image/upload/v1663070035311/JaSbIMfve.jpg?w=500&h=500&fit=crop&crop=faces&auto=compress,format&format=webp"
                 alt="profile pic"
@@ -173,25 +152,19 @@ export default function Home() {
       {/* RECENT SEARCHES */}
       <div className="space-y-2">
         {/* RECENT SEARCHES SECTION */}
-        <h2 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-          Recent Searches
-        </h2>
+        <TypographyH2>Recent Searches</TypographyH2>
 
         {/* SEARCHES MADE */}
         <div className="flex space-x-2 flex-wrap space-y-2 md:space-y-0">
           {recentSearches.map((recentSearch, index) => (
-            <div
+            <Badge
               key={index}
-              className="leading-7 rounded-full flex space-x-2 items-center bg-black text-white py-1 px-3"
             >
-              <Link href={`/${recentSearch}`}>{recentSearch}</Link>
-              <button
-                onClick={() => removeRecentSearch(recentSearch)}
-                className="text-white"
-              >
+              <Link href={`/${recentSearch}`} className=" text-base">{recentSearch}</Link>
+              <Button onClick={() => removeRecentSearch(recentSearch)}>
                 X
-              </button>
-            </div>
+              </Button>
+            </Badge>
           ))}
         </div>
       </div>
@@ -212,36 +185,20 @@ export default function Home() {
 
           <CardContent className="space-y-5">
             {/* USERNAME */}
-            <div className="flex gap-1">
-              <span
-                className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
-              >
-                Username:
-              </span>{" "}
-              <p className={` ${open_sans.className} tracking-wide text-lg`}>
-                {details.data.user.username}
-              </p>
+            <div className="flex gap-1 items-center">
+              <TypographyLarge>Username:</TypographyLarge>{" "}
+              <TypographySmall>{details.data.user.username}</TypographySmall>
             </div>
 
             {/* NAME */}
-            <div className="flex gap-1">
-              <span
-                className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
-              >
-                Name:
-              </span>{" "}
-              <p className={` ${open_sans.className} tracking-wide text-lg`}>
-                {details.data.user.name}
-              </p>
+            <div className="flex gap-1 items-center">
+              <TypographyLarge>Name:</TypographyLarge>{" "}
+              <TypographySmall>{details.data.user.name}</TypographySmall>
             </div>
 
             {/* PROFILE PICTURE */}
-            <div className="flex gap-1">
-              <span
-                className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
-              >
-                Profile pic:
-              </span>
+            <div className="flex gap-1 items-center">
+              <TypographyLarge>Profile pic:</TypographyLarge>
               <Image
                 src={details.data.user.profilePicture}
                 alt="profile picture"
@@ -253,15 +210,9 @@ export default function Home() {
 
             {/* USER BIO */}
             {details.data.user.bio.text !== "" ? (
-              <div className="flex gap-1">
-                <span
-                  className={` ${open_sans.className} tracking-wide font-semibold text-xl`}
-                >
-                  Bio:
-                </span>{" "}
-                <p className={` ${open_sans.className} tracking-wide text-lg`}>
-                  {details.data.user.bio.text}
-                </p>
+              <div className="flex gap-1 items-center">
+                <TypographyLarge>Bio:</TypographyLarge>{" "}
+                <TypographySmall>{details.data.user.bio.text}</TypographySmall>
               </div>
             ) : (
               ""
@@ -274,7 +225,7 @@ export default function Home() {
           </CardContent>
         </Card>
       ) : searchedUser && (!details || !details.data.user) ? (
-        <p>User not found</p>
+        <TypographyP>User not found</TypographyP>
       ) : null}
     </main>
   );
