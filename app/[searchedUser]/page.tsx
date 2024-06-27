@@ -4,6 +4,7 @@ import { detailsContext } from "../context/DetailsContext";
 import { FaHashnode } from "react-icons/fa6";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Image from "next/image";
+import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { ResponsiveSunburst } from "@nivo/sunburst";
@@ -105,7 +106,15 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   console.log("data", data);
   return (
     <div className="h-full">
-      <TypographyH2>User Profile</TypographyH2>
+      {/* BACK BUTTON */}
+      <div className="flex space-x-2">
+        <Button className="hover:scale-105 transition" title="Go back" asChild>
+          <Link href="/">
+            <FaArrowLeft className="text-white" />
+          </Link>
+        </Button>
+        <TypographyH2>User Profile</TypographyH2>
+      </div>
       <UserCard className="mx-auto max-w-2xl hover:border-gray-200">
         {/* IMAGE, USERNAME AND TAG */}
         <div className="text-center flex flex-col space-y-2">
