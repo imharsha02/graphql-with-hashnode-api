@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import UserCard from "@/components/ui/UserCard/UserCard";
 import { TypographyH2 } from "@/components/TypographyH2";
-import { TypographySmall } from "@/components/TypographySmall";
 import { TypographyLarge } from "@/components/TypographyLarge";
 import { TypographyP } from "@/components/TypographyP";
 import { TypographyH1 } from "@/components/TypographyH1";
@@ -29,7 +28,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
   const [followingsToShow, setFollowingsToShow] = useState(
     initialFollowingsToShow // FOLLOWINGS STATE
   );
-  const [badgesToShow,setBadgesToShow] = useState(initialBadgesToShow)
+  const [badgesToShow, setBadgesToShow] = useState(initialBadgesToShow);
 
   const toggleFollowersDisplay = () => {
     // FUNCTION RUNS WHEN BUTTON IS CLICKED
@@ -46,9 +45,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
     setShowAllBadges(!showAllBadges); // FOR CHANGING THE TEXT IN THE BUTTON
 
     const totalBadges = details?.data?.user?.badges?.length ?? 0; // STORING THE LENGTH OF ALL THE BADGES. IF LENGTH VALUE IS NULL/UNDEFINED (CHECKED BY '??'), 0 IS STORED
-    setBadgesToShow(
-      showAllBadges ? initialBadgesToShow : totalBadges
-    ); // IF SHOWALLBADGES IS TRUE, SHOW ALL THE BADGES, ELSE SHOW ONLY THE INITIAL NUMBER OF BADGES
+    setBadgesToShow(showAllBadges ? initialBadgesToShow : totalBadges); // IF SHOWALLBADGES IS TRUE, SHOW ALL THE BADGES, ELSE SHOW ONLY THE INITIAL NUMBER OF BADGES
   };
 
   const toggleFollowingsDisplay = () => {
@@ -148,25 +145,31 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             <div>
               <TypographyLarge>Badges:</TypographyLarge>{" "}
               <div className="pl-10 flex flex-wrap gap-3 mb-2">
-                {details.data.user.badges.slice(0,badgesToShow).map((badge) => (
-                  <Badge className="gap-1" key={badge.id}>
-                    {badge.name}
-                    <Image
-                      src={badge.image}
-                      alt={badge.name}
-                      width={20}
-                      height={20}
-                    />
-                  </Badge>
-                ))}
+                {details.data.user.badges
+                  .slice(0, badgesToShow)
+                  .map((badge) => (
+                    <Badge className="gap-1" key={badge.id}>
+                      {badge.name}
+                      <Image
+                        src={badge.image}
+                        alt={badge.name}
+                        width={20}
+                        height={20}
+                      />
+                    </Badge>
+                  ))}
               </div>
-              <Button
-                onClick={toggleBadgesDisplay}
-                disabled={details.data.user.badges.length === 4}
-                className="ml-12"
-              >
-                {showAllBadges ? "Hide" : "Show all"}
-              </Button>
+              {details.data.user.badges.length > 3 ? (
+                <Button
+                  onClick={toggleBadgesDisplay}
+                  disabled={details.data.user.badges.length <= 3}
+                  className="ml-12"
+                >
+                  {showAllBadges ? "Hide" : "Show all"}
+                </Button>
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             ""
@@ -179,9 +182,7 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
             <div>
               {/* SECTION TITLE */}
               <TypographyLarge>Followed by:</TypographyLarge>
-              <div
-                className="flex flex-wrap md:space-x-2 pl-10 space-x-3 gap-y-3 items-center mb-2"
-              >
+              <div className="flex flex-wrap md:space-x-2 pl-10 space-x-3 gap-y-3 items-center mb-2">
                 {details.data.user.followers.nodes
                   .slice(0, followersToShow)
                   .map((person) => (
@@ -190,13 +191,17 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
                     </Badge>
                   ))}
               </div>
-              <Button
-                onClick={toggleFollowersDisplay}
-                className="ml-12"
-                disabled={details.data.user.followers.nodes.length === 4}
-              >
-                {showAllFollowers ? "Hide" : "Show all"}
-              </Button>
+              {details.data.user.followers.nodes.length > 3 ? (
+                <Button
+                  onClick={toggleFollowersDisplay}
+                  className="ml-12"
+                  disabled={details.data.user.followers.nodes.length <= 3}
+                >
+                  {showAllFollowers ? "Hide" : "Show all"}
+                </Button>
+              ) : (
+                ""
+              )}
             </div>
           )}
 
@@ -215,13 +220,17 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
                     </Badge>
                   ))}
               </div>
-              <Button
-                onClick={toggleFollowingsDisplay}
-                disabled={details.data.user.followers.nodes.length === 4}
-                className="ml-12"
-              >
-                {showAllFollowing ? "Hide" : "Show all"}
-              </Button>
+              {details.data.user.followers.nodes.length > 3 ? (
+                <Button
+                  onClick={toggleFollowingsDisplay}
+                  disabled={details.data.user.followers.nodes.length <= 3}
+                  className="ml-12"
+                >
+                  {showAllFollowing ? "Hide" : "Show all"}
+                </Button>
+              ) : (
+                ""
+              )}
             </div>
           ) : (
             ""
