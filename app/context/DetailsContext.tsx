@@ -204,7 +204,6 @@ const DetailsProvider = ({
           body: JSON.stringify({ query, variables: vars }),
         });
         const data = await response.json();
-        console.log(data);
         setDetails(data);
       } catch (error) {
         console.log("Error: ", error);
