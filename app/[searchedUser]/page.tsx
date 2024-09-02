@@ -1,6 +1,6 @@
 "use client";
-import { useContext, useEffect, useState } from "react";
-import { detailsContext } from "../context/DetailsContext";
+import { useEffect, useState } from "react";
+import { useDetailsContext } from "../context/DetailsContext";
 import { FaHashnode } from "react-icons/fa6";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Image from "next/image";
@@ -17,7 +17,8 @@ import { TypographyP } from "@/components/TypographyP";
 import { TypographyH1 } from "@/components/TypographyH1";
 import { Card, CardContent } from "@/components/ui/card";
 const UserPage = ({ params }: { params: { searchedUser: string } }) => {
-  const { details, setSearchedUser } = useContext(detailsContext);
+  // const { details, setSearchedUser } = useContext(detailsContext);
+  const {details,setSearchedUser} = useDetailsContext();
   const [showAllFollowing, setShowAllFollowing] = useState(false);
   const [showAllFollowers, setShowAllFollowers] = useState(false);
   const [showAllBadges, setShowAllBadges] = useState(false);
