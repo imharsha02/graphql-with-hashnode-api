@@ -16,8 +16,10 @@ import { TypographyLarge } from "@/components/TypographyLarge";
 import { TypographyP } from "@/components/TypographyP";
 import { TypographyH1 } from "@/components/TypographyH1";
 import { Card, CardContent } from "@/components/ui/card";
+
+// RENDERED COMPONENT
 const UserPage = ({ params }: { params: { searchedUser: string } }) => {
-  // const { details, setSearchedUser } = useContext(detailsContext);
+
   const {details,setSearchedUser} = useDetailsContext();
   const [showAllFollowing, setShowAllFollowing] = useState(false);
   const [showAllFollowers, setShowAllFollowers] = useState(false);
