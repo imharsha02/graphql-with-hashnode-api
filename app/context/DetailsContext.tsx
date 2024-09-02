@@ -2,23 +2,24 @@
 import { createContext, useState, useEffect, useContext } from "react";
 
 interface UserDetails {
+  // Defining the  type of data (typescript)
   data: {
     user: {
       id: string;
       username: string;
       name: string;
-      follows:{
-        nodes:{
-          name:string;
-          username:string;
-        }[]
-      }
-      followers:{
-        nodes:{
-          name:string;
-          username:string;
-        }[]
-      }
+      follows: {
+        nodes: {
+          name: string;
+          username: string;
+        }[];
+      };
+      followers: {
+        nodes: {
+          name: string;
+          username: string;
+        }[];
+      };
       bio: {
         markdown: string;
         html: string;
@@ -39,7 +40,7 @@ interface UserDetails {
         id: string;
         name: string;
         description: string;
-        image:string;
+        image: string;
       }[];
       tagline: string;
       dateJoined: string;
@@ -62,9 +63,7 @@ interface UserDetails {
             posts: {
               edges: {
                 node: {
-                  tags: [
-                    {name: string}
-                  ];
+                  tags: [{ name: string }];
                   title: string;
                   url: string;
                 };
@@ -79,13 +78,14 @@ interface UserDetails {
     };
   };
 }
-export const detailsContext = createContext<{
+export const detailsContext = createContext<{ //Creating the context
   details: UserDetails | null;
   setSearchedUser: (user: string) => void;
   searchedUser: string;
 }>({ details: null, setSearchedUser: () => {}, searchedUser: "" });
 
-const query = `
+//Writing the query
+const query = ` 
 query User($username: String!, $pageSize: Int!, $page:Int!) {
   user(username: $username) {
     id
@@ -180,20 +180,16 @@ query User($username: String!, $pageSize: Int!, $page:Int!) {
 }
 `;
 
-const DetailsProvider = ({
-  children
-}: {
-  children: React.ReactNode;
-
-}) => {
+// A component that wraps everything with the context provider
+const DetailsProvider = ({ children }: { children: React.ReactNode }) => {
   const [searchedUser, setSearchedUser] = useState<string>("");
   const [details, setDetails] = useState<UserDetails | null>(null);
   useEffect(() => {
     const fetchDetails = async () => {
-      const vars = {
+      const vars = { // Variables for the fetch's post request
         username: searchedUser,
         pageSize: 12,
-        page:1
+        page: 1,
       };
       try {
         const response = await fetch("https://gql.hashnode.com/", {
@@ -208,12 +204,11 @@ const DetailsProvider = ({
       } catch (error) {
         console.log("Error: ", error);
       }
-    };
-    if(searchedUser && searchedUser != "" ) {
+    }; // Making the fetch post request to get the required data.
+    if (searchedUser && searchedUser != "") {
       fetchDetails();
     }
   }, [searchedUser]);
-  console.log("Details from the database are:", details);
   return (
     <detailsContext.Provider value={{ details, setSearchedUser, searchedUser }}>
       {children}
@@ -221,5 +216,5 @@ const DetailsProvider = ({
   );
 };
 
-export const useDetailsContext = () => useContext(detailsContext)
+export const useDetailsContext = () => useContext(detailsContext); // A hook that uses the context
 export default DetailsProvider;
