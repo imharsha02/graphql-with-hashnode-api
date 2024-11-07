@@ -1,59 +1,67 @@
-"use client"
-
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { UserDataLoading } from "@/components/ui/UserDataLoading"
-import useLocalStorage from "use-local-storage"
-import { Roboto_Condensed, Open_Sans } from "next/font/google"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
-import { useDetailsContext } from "./context/DetailsContext"
-import UserCard from "@/components/ui/UserCard/UserCard"
-import { TypographyP } from "@/components/TypographyP"
-import { TypographyH2 } from "@/components/TypographyH2"
-import { Badge } from "@/components/ui/badge"
-import { Search, X } from "lucide-react"
+"use client";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { UserDataLoading } from "@/components/ui/UserDataLoading";
+import useLocalStorage from "use-local-storage";
+import { Roboto_Condensed, Open_Sans } from "next/font/google";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDetailsContext } from "./context/DetailsContext";
+import UserCard from "@/components/ui/UserCard/UserCard";
+import { TypographyP } from "@/components/TypographyP";
+import { TypographyH2 } from "@/components/TypographyH2";
+import { Badge } from "@/components/ui/badge";
+import { Search, X } from "lucide-react";
+import { motion } from "framer-motion";
 
 const open_sans = Open_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
-})
+});
 
 const roboto = Roboto_Condensed({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-})
+});
 
 type FeaturedUser = {
-  username: string
-  name: string
-  profilePicture: string
-}
+  username: string;
+  name: string;
+  profilePicture: string;
+};
 
-const FEATURED_USERNAMES = ["victoria", "iamshadmirza"]
+const FEATURED_USERNAMES = ["victoria", "iamshadmirza"];
 
 export default function Home() {
-  const [searchingUser, setSearchingUser] = useState<string>("")
-  const [recentSearches, setRecentSearches] = useLocalStorage<string[]>("recentSearches", [])
-  const { details, searchedUser, setSearchedUser } = useDetailsContext()
-  const [featuredUsers, setFeaturedUsers] = useState<FeaturedUser[]>([])
-  const MAX_RECENT_SEARCHES = 10
+  const [searchingUser, setSearchingUser] = useState<string>("");
+  const [recentSearches, setRecentSearches] = useLocalStorage<string[]>(
+    "recentSearches",
+    []
+  );
+  const { details, searchedUser, setSearchedUser } = useDetailsContext();
+  const [featuredUsers, setFeaturedUsers] = useState<FeaturedUser[]>([]);
+  const MAX_RECENT_SEARCHES = 10;
 
   const removeRecentSearch = (searchToRemove: string) => {
-    setRecentSearches(recentSearches.filter((search) => search !== searchToRemove))
-  }
+    setRecentSearches(
+      recentSearches.filter((search) => search !== searchToRemove)
+    );
+  };
 
   useEffect(() => {
     if (details?.data?.user?.username === searchedUser) {
       setRecentSearches((prevSearchedUser) => {
-        const safePrevSearchedUser = prevSearchedUser || []
-        const updatedSearches = [searchedUser, ...safePrevSearchedUser.filter((user) => user !== searchedUser)]
-        return updatedSearches.slice(0, MAX_RECENT_SEARCHES)
-      })
+        const safePrevSearchedUser = prevSearchedUser || [];
+        const updatedSearches = [
+          searchedUser,
+          ...safePrevSearchedUser.filter((user) => user !== searchedUser),
+        ];
+        return updatedSearches.slice(0, MAX_RECENT_SEARCHES);
+      });
     }
-  }, [details, searchedUser, setRecentSearches])
+  }, [details, searchedUser, setRecentSearches]);
 
   useEffect(() => {
     const fetchFeaturedUsers = async () => {
@@ -74,37 +82,43 @@ export default function Home() {
               `,
               variables: { username },
             }),
-          })
-          const data = await response.json()
-          return data.data.user
+          });
+          const data = await response.json();
+          return data.data.user;
         })
-      )
-      setFeaturedUsers(users)
-    }
+      );
+      setFeaturedUsers(users);
+    };
 
-    fetchFeaturedUsers()
-  }, [])
+    fetchFeaturedUsers();
+  }, []);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-muted/50">
       <div className="container mx-auto px-4 py-8 space-y-12">
         {/* Hero Section */}
-        <div className="text-center space-y-6">
-          <TypographyH2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent">
+        <motion.div
+          className="text-center space-y-6"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <TypographyH2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent glow">
             HashProfiles
           </TypographyH2>
           <TypographyP className="text-muted-foreground max-w-2xl mx-auto">
-            Discover and explore Hashnode user profiles. Search for your favorite content creators or browse through our featured users.
+            Discover and explore Hashnode user profiles. Search for your
+            favorite content creators or browse through our featured users.
           </TypographyP>
-        </div>
+        </motion.div>
 
         {/* Search Section */}
-        <Card className="max-w-2xl mx-auto border-2 shadow-lg">
+        <Card className="max-w-2xl mx-auto border-2 shadow-lg hover:shadow-xl transition-shadow duration-300">
           <CardContent className="p-4">
             <form
               onSubmit={(e) => {
-                e.preventDefault()
-                setSearchedUser(searchingUser)
+                e.preventDefault();
+                setSearchedUser(searchingUser);
               }}
               className="flex gap-2"
             >
@@ -124,36 +138,52 @@ export default function Home() {
 
         {/* Featured Users */}
         <section className="space-y-6">
-          <TypographyH2 className="text-2xl font-semibold text-center">Featured Users</TypographyH2>
+          <TypographyH2 className="text-2xl font-semibold text-center">
+            Featured Users
+          </TypographyH2>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {featuredUsers.map((user) => (
-              <Link key={user.username} href={`/${user.username}`} className="transition-transform duration-200 hover:scale-105">
-                <UserCard className="h-full bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-2">
-                  <CardHeader>
-                    <div className="flex items-center gap-4">
-                      <Image
-                        src={user.profilePicture}
-                        alt={`${user.name}'s profile`}
-                        width={60}
-                        height={60}
-                        className="rounded-full ring-2 ring-primary"
-                      />
-                      <div>
-                        <CardTitle className="text-xl">{user.name}</CardTitle>
-                        <p className="text-sm text-muted-foreground">@{user.username}</p>
+              <motion.div key={user.username} whileHover={{ scale: 1.05 }}>
+                <Link
+                  href={`/${user.username}`}
+                  className="transition-transform duration-200"
+                >
+                  <UserCard className="h-full bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-2 shadow-md">
+                    <CardHeader>
+                      <div className="flex items-center gap-4">
+                        <Image
+                          src={user.profilePicture}
+                          alt={`${user.name}'s profile`}
+                          width={60}
+                          height={60}
+                          className="rounded-full ring-2 ring-primary glow"
+                        />
+                        <div>
+                          <CardTitle className="text-xl">{user.name}</CardTitle>
+                          <p className="text-sm text-muted-foreground">
+                            @{user.username}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  </CardHeader>
-                </UserCard>
-              </Link>
+                    </CardHeader>
+                  </UserCard>
+                </Link>
+              </motion.div>
             ))}
           </div>
         </section>
 
         {/* Recent Searches */}
         {recentSearches.length > 0 && (
-          <section className="space-y-6">
-            <TypographyH2 className="text-2xl font-semibold text-center">Recent Searches</TypographyH2>
+          <motion.section
+            className="space-y-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <TypographyH2 className="text-2xl font-semibold text-center">
+              Recent Searches
+            </TypographyH2>
             <div className="flex flex-wrap gap-2 justify-center">
               {recentSearches.map((recentSearch, index) => (
                 <Badge
@@ -173,52 +203,41 @@ export default function Home() {
                 </Badge>
               ))}
             </div>
-          </section>
+          </motion.section>
         )}
 
         {/* Search Results */}
-        {!details && searchedUser ? (
+        {!searchedUser ? (
+          <TypographyP className="text-center text-lg text-muted-foreground">
+            Search for a Hashnode user or click on one of the featured users
+          </TypographyP>
+        ) : !details ? (
           <UserDataLoading />
-        ) : searchedUser && details?.data?.user ? (
-          <Card className="max-w-2xl mx-auto border-2 shadow-lg overflow-hidden">
+        ) : details?.data?.user ? (
+          <Card className="border-2 shadow-lg overflow-hidden">
             <CardHeader className="border-b bg-muted/50">
-              <CardTitle className={`font-bold text-2xl tracking-wider ${roboto.className}`}>User Profile</CardTitle>
+              <CardTitle
+                className={`font-bold text-2xl tracking-wider ${roboto.className}`}
+              >
+                User Profile
+              </CardTitle>
             </CardHeader>
-
-            <CardContent className="p-6 space-y-6">
-              <div className="flex flex-col items-center gap-6">
-                <Image
-                  src={details.data.user.profilePicture}
-                  alt="Profile picture"
-                  width={120}
-                  height={120}
-                  className="rounded-full ring-4 ring-primary/20"
-                />
-                <div className="text-center">
-                  <h3 className="text-2xl font-semibold">{details.data.user.name}</h3>
-                  <p className="text-muted-foreground">@{details.data.user.username}</p>
-                </div>
-              </div>
-
-              {details.data.user.bio.text && (
-                <div className="text-center">
-                  <p className="text-muted-foreground">{details.data.user.bio.text}</p>
-                </div>
-              )}
-
-              <Link href={`/${searchedUser}`} className="block">
-                <Button className="w-full" size="lg">
-                  View Full Profile
-                </Button>
+            <CardContent className="p-6">
+              <Link
+                href={`/${details.data.user.username}`}
+                className="block max-w-2xl mx-auto"
+                target="_blank"
+              >
+                <UserCard user={details.data.user} />
               </Link>
             </CardContent>
           </Card>
-        ) : searchedUser && (!details || !details.data.user) ? (
-          <Card className="max-w-2xl mx-auto p-6 text-center">
-            <TypographyP>No user found with username &quot;{searchedUser}&quot;</TypographyP>
-          </Card>
-        ) : null}
+        ) : (
+          <TypographyP className="text-center text-lg text-muted-foreground">
+            No user found
+          </TypographyP>
+        )}
       </div>
     </main>
-  )
+  );
 }
