@@ -17,7 +17,6 @@ import { TypographyH2 } from "@/components/TypographyH2";
 import { Badge } from "@/components/ui/badge";
 import { Search, X } from "lucide-react";
 import { motion } from "framer-motion";
-import TiltHero from "@/components/TiltHero";
 const Design1 = () => (
   <div className="relative overflow-hidden bg-gradient-to-b from-blue-950 to-background pt-16 pb-24">
     {/* Abstract Wave Background */}
