@@ -17,7 +17,32 @@ import { TypographyH2 } from "@/components/TypographyH2";
 import { Badge } from "@/components/ui/badge";
 import { Search, X } from "lucide-react";
 import { motion } from "framer-motion";
+import TiltHero from "@/components/TiltHero";
+const Design1 = () => (
+  <div className="relative overflow-hidden bg-gradient-to-b from-blue-950 to-background pt-16 pb-24">
+    {/* Abstract Wave Background */}
+    <svg
+      className="absolute inset-0 w-full h-full"
+      viewBox="0 0 1440 400"
+      preserveAspectRatio="none"
+    >
+      <path
+        fill="rgba(59, 130, 246, 0.1)"
+        d="M0,128L48,138.7C96,149,192,171,288,165.3C384,160,480,128,576,128C672,128,768,160,864,181.3C960,203,1056,213,1152,192C1248,171,1344,117,1392,90.7L1440,64L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+      />
+    </svg>
 
+    <div className="relative container mx-auto px-4 text-center">
+      <h1 className="text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent animate-gradient">
+        HashProfiles
+      </h1>
+      <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+        Discover and explore Hashnode user profiles. Search for your favorite
+        content creators.
+      </p>
+    </div>
+  </div>
+);
 const open_sans = Open_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -96,8 +121,9 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-background to-muted/50">
+    <main className="min-h-screen  from-background to-muted/50">
       <AnimatedBackground />
+
       <div className="container mx-auto px-4 py-8 space-y-12">
         {/* Hero Section */}
         <motion.div
