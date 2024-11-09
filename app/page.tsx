@@ -1,4 +1,6 @@
 "use client";
+import { AnimatedBackground } from "@/components/AnimatedBackground";
+
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { UserDataLoading } from "@/components/ui/UserDataLoading";
@@ -15,6 +17,7 @@ import { TypographyH2 } from "@/components/TypographyH2";
 import { Badge } from "@/components/ui/badge";
 import { Search, X } from "lucide-react";
 import { motion } from "framer-motion";
+import FloatingChartShapes from "@/components/FloatingChartShapes";
 
 const open_sans = Open_Sans({
   subsets: ["latin"],
@@ -95,6 +98,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-background to-muted/50">
+      <AnimatedBackground />
+      <FloatingChartShapes />
       <div className="container mx-auto px-4 py-8 space-y-12">
         {/* Hero Section */}
         <motion.div
