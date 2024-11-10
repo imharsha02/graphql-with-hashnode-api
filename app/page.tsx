@@ -1,3 +1,4 @@
+/// <reference types="react" />
 "use client";
 import AnimatedBackground from "@/components/AnimatedBackground";
 
@@ -141,7 +142,7 @@ export default function Home() {
         </motion.div>
 
         {/* Search Section */}
-        <Card className="max-w-2xl mx-auto border-2 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="max-w-2xl mx-auto border-2   duration-300">
           <CardContent className="p-4">
             <form
               onSubmit={(e) => {
@@ -176,7 +177,7 @@ export default function Home() {
                   href={`/${user.username}`}
                   className="transition-transform duration-200"
                 >
-                  <UserCard className="h-full bg-card/50 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-2 shadow-md">
+                  <UserCard className="h-full backdrop-blur-sm border-2">
                     <CardHeader>
                       <div className="flex items-center gap-4">
                         <Image
@@ -200,6 +201,7 @@ export default function Home() {
             ))}
           </div>
         </section>
+
 
         {/* Recent Searches */}
         {recentSearches.length > 0 && (
@@ -235,36 +237,26 @@ export default function Home() {
         )}
 
         {/* Search Results */}
-        {!searchedUser ? (
-          <TypographyP className="text-center text-lg text-muted-foreground">
-            Search for a Hashnode user or click on one of the featured users
-          </TypographyP>
-        ) : !details ? (
-          <UserDataLoading />
-        ) : details?.data?.user ? (
-          <Card className="border-2 shadow-lg overflow-hidden">
-            <CardHeader className="border-b bg-muted/50">
-              <CardTitle
-                className={`font-bold text-2xl tracking-wider ${roboto.className}`}
-              >
-                User Profile
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <Link
-                href={`/${details.data.user.username}`}
-                className="block max-w-2xl mx-auto"
-                target="_blank"
-              >
-                <UserCard user={details.data.user} />
-              </Link>
-            </CardContent>
-          </Card>
-        ) : (
-          <TypographyP className="text-center text-lg text-muted-foreground">
-            No user found
-          </TypographyP>
-        )}
+{!searchedUser ? (
+  <TypographyP className="text-center text-lg text-muted-foreground">
+    Search for a Hashnode user or click on one of the featured users
+  </TypographyP>
+) : !details ? (
+  <UserDataLoading />
+) : details?.data?.user ? (
+  <Link
+    href={`/${details.data.user.username}`}
+    className="block max-w-2xl mx-auto"
+    target="_blank"
+  >
+    <UserCard enableAtropos={true} user={details.data.user} />
+  </Link>
+) : (
+  <TypographyP className="text-center text-lg text-muted-foreground">
+    No user found
+  </TypographyP>
+)}
+
       </div>
     </main>
   );
