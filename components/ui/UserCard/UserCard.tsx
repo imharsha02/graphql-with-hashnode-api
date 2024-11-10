@@ -50,7 +50,7 @@ const UserCard = ({
       
       {/* Title Section */}
       <div className="absolute top-4 left-6">
-        <h2 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-primary bg-clip-text text-transparent">
+        <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient bg-300">
           User Profile
         </h2>
       </div>
@@ -74,7 +74,7 @@ const UserCard = ({
 
       {/* Name & Username */}
       <div className="text-center space-y-1 mb-6">
-        <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-primary bg-clip-text text-transparent">
+        <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-gradient bg-300">
           {user?.name}
         </h3>
         <p className="text-sm text-muted-foreground font-medium">

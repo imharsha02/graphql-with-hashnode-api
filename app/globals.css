@@ -106,3 +106,25 @@
   transform-style: preserve-3d;
   transform: translateZ(0);
 }
+
+@layer utilities {
+  .bg-300 {
+    background-size: 200% auto;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% center;
+    }
+    50% {
+      background-position: 100% center;
+    }
+    100% {
+      background-position: 0% center;
+    }
+  }
+
+  .animate-gradient {
+    animation: gradient 2s linear infinite;
+  }
+}
