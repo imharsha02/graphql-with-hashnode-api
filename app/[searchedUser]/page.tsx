@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useDetailsContext } from "../context/DetailsContext";
 import { FaHashnode } from "react-icons/fa6";
+import { CiBookmark } from "react-icons/ci";
 import Image from "next/image";
 import { FaArrowLeft } from "react-icons/fa6";
 import Link from "next/link";
@@ -121,23 +122,35 @@ const UserPage = ({ params }: { params: { searchedUser: string } }) => {
 
         {/* Profile Card */}
         <Card className="overflow-hidden border-2">
-          <CardHeader className="border-b bg-muted/50">
-            <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-              <Image
-                src={details.data.user.profilePicture}
-                alt={details.data.user.name}
-                width={120}
-                height={120}
-                className="rounded-full ring-4 ring-primary/20"
-              />
-              <div className="space-y-2">
-                <CardTitle className="text-3xl font-bold">
-                  {details.data.user.username}
-                </CardTitle>
-                <CardDescription className="text-lg">
-                  {details.data.user.tagline}
-                </CardDescription>
+          <CardHeader className="border-b bg-muted/50 p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                <div className="relative">
+                  <Image
+                    src={details.data.user.profilePicture}
+                    alt={details.data.user.name}
+                    width={120}
+                    height={120}
+                    className="rounded-full ring-4 ring-primary/20 transition-shadow hover:ring-primary/40"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent">
+                    {details.data.user.username}
+                  </CardTitle>
+                  <CardDescription className="text-lg text-muted-foreground">
+                    {details.data.user.tagline}
+                  </CardDescription>
+                </div>
               </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full h-10 w-10 hover:bg-primary/10 transition-colors"
+                title="Bookmark profile"
+              >
+                <CiBookmark className="w-5 h-5" />
+              </Button>
             </div>
           </CardHeader>
 
